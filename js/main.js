@@ -1,65 +1,131 @@
-//d3.select("h1").text("What's up").style("color","steelblue");
-//d3.select(".container").insert("h2").text("hi");
-/* d3.select("p").remove(); */
+// Initialize Firebase
+// TODO: Replace with your project's customized code snippet
+var config = {
+  apiKey: "AIzaSyD8ZAQxNMQNaYAyhniMICa3DNvAuOpNZ_c",
+  authDomain: "polya-1.firebaseapp.com",
+  databaseURL: "https://polya-1.firebaseio.com",
+  projectId: "polya-1",
+  storageBucket: "polya-1.appspot.com",
+  messagingSenderId: "1015410485437"
+};
+firebase.initializeApp(config);
 
-function makeStage(w, h) {
-	var stage = d3.select(".container")
-	  .insert("center")
-	  .insert("svg")
-	  .attr("width",w)
-	  .attr("height",h);
-	return stage;
-}
+var storageRef = firebase.storage().ref();
 
-function clearStimulus(stage) {
-	stage.selectAll("circle").remove();
-}
+var file1Ref = storageRef.child('file1.csv');
+var file2Ref = storageRef.child('file2.csv');
 
-function drawStimulus(stage, cx, cy, radius, fillcolor) {
-	stage.insert("circle")
-	  .attr("cx", cx)
-	  .attr("cy", cy)
-	  .attr("r",radius)
-	  .style("fill",fillcolor)
-	  .style("stroke","steelblue")
-	  .style("stroke-width","5px");
-}
+function handleFiles(delegate, files) {
 
-function clearButton() {
-	d3.select(".container")
-	  .selectAll("button")
-	  .remove();
-}
+	console.log(delegate);
 
-function makeButton(text, callback) {
-	d3.select(".container")
-      .insert("button")
-      .attr("type","button")
-      .attr("class","btn btn-primary btn-lg")
-      .text(text)
-      .on("click", function(d) { console.log("clicked"); callback(); } );
+	var file = files[0];
+
+	console.log('Uploading file...', file);
+
+	file1Ref.put(file).then(function(snapshot) {
+		console.log('File read...');
+		var downloadURL = snapshot.downloadURL;
+
+		plotData({
+			url: downloadURL,
+			container: '#' + delegate
+		});
+
+	});
 
 }
 
-var trials = [ {"color":"lightblue", "radius": 20},
-			   {"color":"yellow", "radius": 20},
-			   {"color":"red", "radius": 50},
-			   {"color":"blue","radius":20}
-			 ];
 
 
-var mystage = makeStage(500, 400);
 
-function doTrial(stage, stim_array) {
-	if (stim_array.length > 0) {
-		var stim = stim_array.shift();
-		clearStimulus(stage);
-		clearButton();
-		drawStimulus(stage, 500/2., 400/2., stim["radius"], stim["color"]);
-		makeButton("Next trial", function () { doTrial(stage, stim_array); });
-	} else {
-		alert("i'm done with experiment");
-	}
+function plotData(options) {
+
+	// set the dimensions and margins of the graph
+	var margin = {top: 20, right: 20, bottom: 30, left: 50},
+	    width = 500 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom;
+
+	// parse the date / time
+	var parseTime = d3.timeParse("%d-%b-%y");
+
+	// set the ranges
+	var x = d3.scaleTime().range([0, width]);
+	var y = d3.scaleLinear().range([height, 0]);
+
+	// define the 1st line
+	var valueline = d3.line()
+	    .x(function(d) { return x(d['TIME']); })
+	    .y(function(d) { return y(d['A Flex/Ext']); });
+
+	// define the 2nd line
+	var valueline2 = d3.line()
+	    .x(function(d) { return x(d['TIME']); })
+	    .y(function(d) { return y(d['Knee Int/Ext R']); });
+
+
+	// define the 2nd line
+	var valueline3 = d3.line()
+	    .x(function(d) { return x(d['TIME']); })
+	    .y(function(d) { return y(d['A I/E']); });
+
+	// append the svg obgect to the body of the page
+	// appends a 'group' element to 'svg'
+	// moves the 'group' element to the top left margin
+	var svg = d3.select(options.container).append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", (height * 2) + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform",
+	          "translate(" + margin.left + "," + margin.top + ")");
+  
+	// Get the data
+	d3.csv(options.url, function(error, data) {
+	  if (error) throw error;
+
+	  // format the data
+	  data.forEach(function(d) {
+	      d['TIME'] = +d['TIME'];
+	      d['A Flex/Ext'] = +d['A Flex/Ext'];
+	      d['Knee Int/Ext R'] = +d['Knee Int/Ext R'];
+	      d['A I/E'] = +d['A I/E'];
+	      console.log( d );
+	  });
+
+	  // Scale the range of the data
+	  x.domain(d3.extent(data, function(d) { return d['TIME']; }));
+	  y.domain([0, d3.max(data, function(d) {
+		  return Math.max(d['A Flex/Ext'], d['Knee Int/Ext R'], d['A I/E']); })]);
+
+	  // Add the valueline path.
+	  svg.append("path")
+	      .data([data])
+	      .attr("class", "line")
+	      .attr("d", valueline);
+
+	  // Add the valueline2 path.
+	  svg.append("path")
+	      .data([data])
+	      .attr("class", "line")
+	      .style("stroke", "red")
+	      .attr("d", valueline2);
+
+	  // Add the valueline3 path.
+	  svg.append("path")
+	      .data([data])
+	      .attr("class", "line")
+	      .style("stroke", "green")
+	      .attr("d", valueline3);
+
+	  // Add the X Axis
+	  svg.append("g")
+	      .attr("transform", "translate(0," + height + ")")
+	      .call(d3.axisBottom(x));
+
+	  // Add the Y Axis
+	  svg.append("g")
+	      .call(d3.axisLeft(y));
+
+	});
+
 }
-
-doTrial(mystage, trials); 

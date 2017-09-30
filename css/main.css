@@ -1,29 +1,61 @@
-// Extra small devices (portrait phones, less than 576px)
-// No media query since this is the default in Bootstrap
+body {
+  background-color: #EBEEF3;
+  box-sizing: border-box;
+  font-family: "Helvetica", "Arial", "FreeSans", "Verdana", "Tahoma", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #454545;
+}
 
-// Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) {  }
+.navbar {
+  margin-bottom: 20px;
+}
 
-// Medium devices (tablets, 768px and up)
-@media (min-width: 768px) {  }
+.navbar-brand i {
+  font-size: inherit;
+  line-height: inherit;
+  margin-right: 7px;
+  position: relative;
+  top: 3px;
+}
 
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) {  }
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
 
-// Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {  }
 
-// Extra small devices (portrait phones, less than 576px)
-@media (max-width: 575px) {  }
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
 
-// Small devices (landscape phones, less than 768px)
-@media (max-width: 767px) {  }
+.inputfile + label {
+  padding: 5px 20px 7px 20px;
+  font-size: .8em;
+  font-weight: 700;
+  display: inline-block;
+  cursor: pointer; /* "hand" cursor */
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
 
-// Medium devices (tablets, less than 992px)
-@media (max-width: 991px) {  }
+.inputfile:focus + label {
+  outline: 1px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
 
-// Large devices (desktops, less than 1200px)
-@media (max-width: 1199px) { }
+.inputfile:focus + label,
+.inputfile.has-focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
 
-// Extra large devices (large desktops)
-// No media query since the extra-large breakpoint has no upper bound on its width
+
+.center-align {
+  text-align: center;
+}
