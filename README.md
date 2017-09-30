@@ -1,4 +1,3 @@
-super_basic_web_app
-===================
+PolyA-1 Data Analysis
+=====================
 
-a very simple HTML+CSS+JS project for my "collecting behavioral data online course"
