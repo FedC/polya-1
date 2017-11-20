@@ -34,56 +34,48 @@
   </head>
 
   <body>
+    <div class='row'>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">
-        <i class="material-icons">3d_rotation</i>
-        PolyA-1
-      </a>
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-        </ul>
-        <!-- <form class="form-inline my-2 my-lg-0" action="javascript:void(0)">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form> -->
-      </div>
-    </nav>
-
-    <div class="container">
-      
-      <div class='row'>
-        <div class='col-6 center-align'>
-          <input class="inputfile" type="file" name="file1" id="file1" onchange="handleFiles('chart1', this.files)"/>
-          <label for="file1" class='btn btn-lg btn-secondary'> <span>Upload control data</span></label>
+      <header class="header col-lg-3">
+        <div class='brand'>
+          <i class="material-icons">3d_rotation</i>
+          PolyA-1
         </div>
 
-        <div class='col-6 center-align'>
-          <input class="inputfile" type="file" name="file2" id="file2" onchange="handleFiles('chart2', this.files)"/>
-          <label for="file2" class='btn btn-lg btn-primary'> <span>Upload user data</span></label>
+        <div class="row">
+
+          <div class='input-group'>
+            <input class="inputfile" type="file" name="file1" id="file1" onchange="handleFiles('chart1', this.files)"/>
+            <label id="file1-label" for="file1" class='btn btn-lg btn-secondary'> <span>Upload intended path (tsv)</span></label>
+          </div>
+
+          <div class='input-group'>
+            <input class="inputfile" type="file" name="file2" id="file2" onchange="handleFiles('chart2', this.files)"/>
+            <label id="file2-label" for="file2" class='btn btn-lg btn-terciary'> <span>Upload actual path (tsv)</span></label>
+          </div>
+
+
+          <div class='input-group'>
+            <label for="tolerance" class='input-label'> Tolerance </label>
+            <input id='tolerance' type='text' value="5.0" />
+          </div>
+
         </div>
-      </div>
 
-      <div class='row'>
+      </header>
 
-        <div id='chart1' class='col-6'></div>
+      <section class='col-lg-9 chart-container'>
 
-        <div id='chart2' class='col-6'></div>
+        <i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
 
-      </div>
+        <div id='chart'>
 
-      <p></p>
+        </div>
+
+      </section>
 
     </div>
-
   </body>
-  <script src="js/main.js" charset="utf-8"></script>
+
+  <script src="js/polya-1.js" charset="utf-8"></script>
 </html>

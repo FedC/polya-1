@@ -1,4 +1,4 @@
-Tiempo Ankle Flex/Ext Knee Int/Ext R. Inversion/Eversion
+Tiempo	Ankle Flex/Ext	Knee Int/Ext R.	Inversion/Eversion
 0	16.545041	-3.698139	-15.631211
 0.001	16.513762	-3.711363	-15.407742
 0.002	16.503336	-3.724586	-15.228966

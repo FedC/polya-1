@@ -6,11 +6,43 @@ body {
   color: #454545;
 }
 
-.navbar {
-  margin-bottom: 20px;
+
+.btn-secondary {
+  background-color: #fce95c;
+  border-color: #fce95c;
+  color: #1B293E;
 }
 
-.navbar-brand i {
+.btn-terciary {
+  background-color: steelblue;
+  border-color: steelblue;
+  color: #1B293E;
+}
+
+.header {
+  padding-top: 2em;
+  background-color: #1A283E;
+  color: #FFFFFF;
+  
+}
+@media only screen and (min-width: 990px) {
+  header {
+    height: 100vh;
+  }
+}
+
+.brand {
+  font-size: 150%;
+  color: white;
+  text-align: center;
+  margin-bottom: 2em;
+}
+.brand:hover {
+  text-decoration: none;
+  text-transform: none;
+}
+
+.brand i {
   font-size: inherit;
   line-height: inherit;
   margin-right: 7px;
@@ -18,12 +50,13 @@ body {
   top: 3px;
 }
 
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 2px;
-}
 
+
+.input-group {
+  display: block;
+  text-align: center;
+  margin: 5px 0;
+}
 
 .inputfile {
   width: 0.1px;
@@ -35,27 +68,94 @@ body {
 }
 
 .inputfile + label {
-  padding: 5px 20px 7px 20px;
-  font-size: .8em;
+  padding: 15px;
+  font-size: 1em;
   font-weight: 700;
-  display: inline-block;
-  cursor: pointer; /* "hand" cursor */
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-}
-
-.inputfile:focus + label {
-  outline: 1px dotted #000;
-  outline: -webkit-focus-ring-color auto 5px;
-}
-
-.inputfile:focus + label,
-.inputfile.has-focus + label {
-    outline: 1px dotted #000;
-    outline: -webkit-focus-ring-color auto 5px;
+  cursor: pointer;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  width: 100%;
 }
 
 
-.center-align {
+label.input-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type='text'] {
+  display: block;
+  width: 100%;
   text-align: center;
 }
+
+.chart-container {
+  background-color: #131814;
+  width: 100%;
+  padding-bottom: 40px;
+  min-height: 500px;
+}
+
+@media only screen and (min-width: 990px) {
+  .chart-container {
+    height: 100vh;
+  }
+}
+
+.chart-item {
+  stroke: white;
+}
+text.chart-item {
+  fill: white;
+  stroke: 0;
+}
+.domain {
+  stroke: white;
+}
+.tick line {
+  stroke: white;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+.control.line {
+  stroke: #fce95c;
+}
+
+.chart-container {
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+
+@-webkit-keyframes spin2 {
+  from { -webkit-transform: rotate(0deg);}
+  to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg);}
+  to { transform: scale(1) rotate(360deg);}
+}
+
+.icon-animate {
+  animation: spin .7s infinite linear;
+  -webkit-animation: spin2 .7s infinite linear;
+}
+
+#loading {
+  color: white;
+}
+
+
