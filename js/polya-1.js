@@ -11,6 +11,15 @@ var DATAY = 'Ankle Flex/Ext';
 
 $('#loading').hide();
 
+
+
+chart_data = [];
+
+DATA[1].map( (d,i) => {
+ if (i%3==0) chart_data.push({ "Ankle Flex/Ext": data[i], "Knee Int/Ext R.": data[i+1]});
+});
+
+
 // Firebase config
 var config = {
   apiKey: "AIzaSyD8ZAQxNMQNaYAyhniMICa3DNvAuOpNZ_c",
