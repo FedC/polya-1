@@ -34,45 +34,95 @@
   </head>
 
   <body>
-    <div class='row'>
+    <div class='container-fluid'>
 
-      <header class="header col-lg-3">
-        <div class='brand'>
-          <i class="material-icons">3d_rotation</i>
-          PolyA-1
-        </div>
+      <div class='row'>
 
-        <div class="row">
-
-          <div class='input-group'>
-            <input class="inputfile" type="file" name="file1" id="file1" onchange="handleFiles('chart1', this.files)"/>
-            <label id="file1-label" for="file1" class='btn btn-lg btn-secondary'> <span>Upload intended path (tsv)</span></label>
+        <header class="header col-lg-3">
+          <div class='brand'>
+            <i class="material-icons">3d_rotation</i>
+            PolyA-1
           </div>
 
-          <div class='input-group'>
-            <input class="inputfile" type="file" name="file2" id="file2" onchange="handleFiles('chart2', this.files)"/>
-            <label id="file2-label" for="file2" class='btn btn-lg btn-terciary'> <span>Upload actual path (tsv)</span></label>
+          <div class="row">
+
+            <div class='col-sm-12 text-center'>
+
+              <div class='input-group'>
+                <label for="tolerance" class='input-label'> Tolerance </label>
+                <input id='tolerance' type='text' value="1.0" />
+              </div>
+
+              <button class='btn btn-primary' id='analyze'>Analyze</button>
+
+
+              <hr />
+              
+
+              <label>Data #1</label>
+
+              <div class='input-group'>
+                <textarea class='input' placeholder="Copy/paste" data-id='1' id='data1' class='pasteInput'></textarea> 
+              </div>
+
+              <div class='input-group'>
+                <input class="inputfile" type="file" name="file1" id="file1" onchange="handleFiles('chart1', this.files)"/>
+                <label id="file1-label" for="file1" class='btn btn-lg btn-secondary'> <span>Upload file</span></label>
+              </div>
+
+
+              <hr />
+
+
+              <label>Data #2</label>
+
+              <div class='input-group'>
+                <textarea class='input' placeholder="Copy/paste" data-id='2' id='data2' class='pasteInput'></textarea> 
+              </div>
+
+              <div class='input-group'>
+                <input class="inputfile" type="file" name="file2" id="file2" onchange="handleFiles('chart2', this.files)"/>
+                <label id="file2-label" for="file2" class='btn btn-lg btn-terciary'> <span>Upload file</span></label>
+              </div>
+
+            </div>
+
           </div>
 
+        </header>
 
-          <div class='input-group'>
-            <label for="tolerance" class='input-label'> Tolerance </label>
-            <input id='tolerance' type='text' value="5.0" />
+        <section class='col-lg-9 chart-container'>
+
+          <i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
+
+          <div class='analysis-container' id="analysis">
+            <table class='analysis'>
+              <tr>
+                <td>Total Time:</td>
+                <td><span id='time'></span></td>
+              </tr>
+              <tr>
+                <td>Time Inside Range:</td>
+                <td><span id='time-accuracy'></span></td>
+              </tr>
+              <tr>
+                <td>Points Inside:</td>
+                <td><span id='hits'></span></td>
+              </tr>
+              <tr>
+                <td>Overall Accuracy:</td>
+                <td><span id='accuracy'></span></td>
+              </tr>
+            </table>
           </div>
 
-        </div>
+          <div id='chart'>
 
-      </header>
+          </div>
 
-      <section class='col-lg-9 chart-container'>
+        </section>
 
-        <i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
-
-        <div id='chart'>
-
-        </div>
-
-      </section>
+      </div>
 
     </div>
   </body>

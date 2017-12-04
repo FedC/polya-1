@@ -1,11 +1,15 @@
 body {
   background-color: #EBEEF3;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   font-family: "Helvetica", "Arial", "FreeSans", "Verdana", "Tahoma", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   color: #454545;
 }
 
+.btn {
+  border-radius: 0;
+}
 
 .btn-secondary {
   background-color: #fce95c;
@@ -20,10 +24,10 @@ body {
 }
 
 .header {
+  padding: 0;
   padding-top: 2em;
   background-color: #1A283E;
   color: #FFFFFF;
-  
 }
 @media only screen and (min-width: 990px) {
   header {
@@ -50,15 +54,43 @@ body {
   top: 3px;
 }
 
+.analysis-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: auto;
+}
 
+.analysis {
+  width: 100%;
+  color: white;
+}
+
+td {
+  max-width: 150px;
+  text-align: left;
+  border: 1px solid #59b96c;
+  padding: 5px;
+}
+td::after {
+  font-weight: 500;
+}
 
 .input-group {
   display: block;
-  text-align: center;
   margin: 5px 0;
 }
 
+.input {
+  text-align: left;
+  padding: 8px;
+  font-size: 1em;
+  font-weight: 700;
+  width: 100%;
+}
+
 .inputfile {
+  text-align: center;
   width: 0.1px;
   height: 0.1px;
   opacity: 0;
@@ -68,7 +100,7 @@ body {
 }
 
 .inputfile + label {
-  padding: 15px;
+  padding: 8px 0;
   font-size: 1em;
   font-weight: 700;
   cursor: pointer;
@@ -77,6 +109,11 @@ body {
   width: 100%;
 }
 
+#tolerance {
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 label.input-label {
   display: block;
@@ -144,9 +181,14 @@ text.chart-item {
   to { -webkit-transform: rotate(360deg);}
 }
 
+@-webkit-keyframes spin {
+  from { -webkit-transform: scale(1) rotate(0deg); transform: scale(1) rotate(0deg);}
+  to { -webkit-transform: scale(1) rotate(360deg); transform: scale(1) rotate(360deg);}
+}
+
 @keyframes spin {
-  from { transform: scale(1) rotate(0deg);}
-  to { transform: scale(1) rotate(360deg);}
+  from { -webkit-transform: scale(1) rotate(0deg); transform: scale(1) rotate(0deg);}
+  to { -webkit-transform: scale(1) rotate(360deg); transform: scale(1) rotate(360deg);}
 }
 
 .icon-animate {
@@ -156,6 +198,25 @@ text.chart-item {
 
 #loading {
   color: white;
+  position: absolute;
+  width: 4em;
+  height: 4em;
+  left: 50%;
+  top: 50%;
+  margin-top: -2em;
+  margin-left: -2em;
+
+  display: -webkit-box;
+
+  display: -ms-flexbox;
+
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 
