@@ -1,0 +1,23 @@
+{
+  "name": "polya-1",
+  "version": "1.0.0",
+  "description": "PolyA-1 Data Analysis",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrontendFed/polya-1.git"
+  },
+  "author": "Federico Commisso",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrontendFed/polya-1/issues"
+  },
+  "homepage": "https://github.com/FrontendFed/polya-1#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
