@@ -8,6 +8,10 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/index.html'));
 });
 
+app.get('/doc', function(req, res) {
+    res.sendFile(path.join(__dirname + '/doc.html'));
+});
+
 app.get('*.*', express.static(path.join(process.cwd()), {
   maxAge: '1y'
 }));
