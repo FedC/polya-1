@@ -69,9 +69,8 @@ body {
   padding-top: 2em;
   background-color: #1A283E;
   color: #FFFFFF;
-  height: 45vh;
-  height: calc(50vh - 66px);
   text-align: center;
+  padding-bottom: 2em;
 }
 @media only screen and (min-width: 990px) {
 
