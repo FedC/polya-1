@@ -162,10 +162,10 @@ function analyzeData() {
 
         let quadrant;
 
-        if (ankle2 < 0 && knee2 < 0) quadrant = 'quadrant1';
-        if (ankle2 < 0 && knee2 > 0) quadrant = 'quadrant2';
-        if (ankle2 > 0 && knee2 > 0) quadrant = 'quadrant3';
-        if (ankle2 > 0 && knee2 < 0) quadrant = 'quadrant4';
+        if (ankle2 < 0 && knee2 > 0) quadrant = 'quadrant1';
+        if (ankle2 < 0 && knee2 < 0) quadrant = 'quadrant2';
+        if (ankle2 > 0 && knee2 < 0) quadrant = 'quadrant3';
+        if (ankle2 > 0 && knee2 > 0) quadrant = 'quadrant4';
 
         coverage_areas[quadrant].total_points++;
         coverage_areas[quadrant].inside = true;
@@ -178,10 +178,10 @@ function analyzeData() {
           let dist = distance( {x: ankle1, y: knee1}, {x: ankle2, y: knee2} );
 
           let d1quadrant = '';
-          if (ankle1 < 0 && knee1 < 0) d1quadrant = 'quadrant1';
-          if (ankle1 < 0 && knee1 > 0) d1quadrant = 'quadrant2';
-          if (ankle1 > 0 && knee1 > 0) d1quadrant = 'quadrant3';
-          if (ankle1 > 0 && knee1 < 0) d1quadrant = 'quadrant4';
+          if (ankle1 < 0 && knee1 > 0) d1quadrant = 'quadrant1';
+          if (ankle1 < 0 && knee1 < 0) d1quadrant = 'quadrant2';
+          if (ankle1 > 0 && knee1 < 0) d1quadrant = 'quadrant3';
+          if (ankle1 > 0 && knee1 > 0) d1quadrant = 'quadrant4';
 
           if ( dist <= TOLERANCE ) {
             // if this data point was never before marked inside
@@ -212,6 +212,7 @@ function analyzeData() {
       Object.keys(coverage_areas).forEach(k => {
         if (coverage_areas[k].inside) coverage_areas_count++;
         coverage_areas[k].accuracy = parseFloat(coverage_areas[k].total_points_in / coverage_areas[k].total_points * 100).toFixed(3);
+        if ( isNaN(coverage_areas[k].accuracy) ) coverage_areas[k].accuracy = 0;
       });
       let coverage = parseFloat(coverage_areas_count / 4 * 100).toFixed(3);
 

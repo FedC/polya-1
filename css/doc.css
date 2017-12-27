@@ -618,6 +618,7 @@ select {
 }
 .screenshot-holder img {
   border: 1px solid #f0f0f0;
+  max-width: 100%;
 }
 .screenshot-holder .mask {
   display: block;
