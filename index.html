@@ -20,148 +20,135 @@
     <script type="text/javascript" src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-
     <!-- Icons -->
     <link rel='stylesheet' href='//fonts.googleapis.com/icon?family=Material+Icons'>
 
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">   
+    <!-- Plugins CSS -->    
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="plugins/prism/prism.css">
+    <link rel="stylesheet" href="plugins/elegant_font/css/style.css">
+    
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="css/doc.css">
     <!-- Custom styles for this template -->
-    <link href="css/polya-1.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/polya-1.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 
   </head>
 
-  <body>
-    <div class='body'>
+  <body class="body-blue">
+    <div class="page-wrapper">
+      <!-- ******Header****** -->
+      <header id="header" class="header">
+          <div class="container">
+              <div class="branding">
+                  <h1 class="logo">
+                      <a href="index.html">
+                          <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                          <span class="text-highlight">PolyA</span><span class="text-bold">-1</span>
+                      </a>
+                  </h1>
+              </div><!--//branding-->
+              <ol class="breadcrumb">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/doc" class="">Documentation</a></li>
+              </ol>
+          </div><!--//container-->
+      </header><!--//header-->
 
-      <header class="poly-header">
-        <div class='container'>
-          <div class='row'>
-            <div class='col-sm-2'>
-              <div class='brand'>
-                <i class="material-icons">3d_rotation</i>
-                PolyA-1
-              </div>
-            </div>
-            <div class='col-sm-10 text-right'>
-              <nav class='nav'>
-                <a href='/doc'> Documentation </a>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </header>
 
-      <section class='chart-container'>
-
-        <i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
-
+      <div class="container-fluid">
         <div class='row'>
 
-          <div class='col-sm-6'>
-            <div class='analysis-container' id="analysis">
-              <table class='analysis'>
-                <thead>
-                  <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
+          <section class='col-sm-4 col-md-3 sidebar'>
 
-                <tr>
-                  <td>Points Inside/Outside:</td>
-                  <td><span id='hits'></span></td>
-                </tr>
-                <tr>
-                  <td>Error Spread:</td>
-                  <td><span id='error'></span></td>
-                </tr>
-                <tr>
-                  <td>Path Coverage:</td>
-                  <td><span id='coverage'></span></td>
-                </tr>
-                <tr>
-                  <td>Quadrant 1 Accuracy:</td>
-                  <td><span id='q1accuracy'></span></td>
-                </tr>
-                <tr>
-                  <td>Quadrant 2 Accuracy:</td>
-                  <td><span id='q2accuracy'></span></td>
-                </tr>
-                <tr>
-                  <td>Quadrant 3 Accuracy:</td>
-                  <td><span id='q3accuracy'></span></td>
-                </tr>
-                <tr>
-                  <td>Quadrant 4 Accuracy:</td>
-                  <td><span id='q4accuracy'></span></td>
-                </tr>
-                <tr>
-                  <td>Overall Positional Accuracy:</td>
-                  <td><span id='accuracy'></span></td>
-                </tr>
-              </table>
+            <!-- <div class='control'>
+              <label class='input-label'>Control Data</label>
+              <textarea class='input' placeholder="Paste data" data-id='1' id='data1' class='pasteInput'></textarea> 
+              <input class="inputfile" type="file" name="file1" id="file1" onchange="handleFiles('chart1', this.files)"/>
+            </div> -->
+
+            <div class='control'>
+              <label class='input-label'>Test Subject Data</label>
+              <textarea class='input' placeholder="Paste data" data-id='2' id='data2' class='pasteInput'></textarea> 
+              <!-- <input class="inputfile" type="file" name="file2" id="file2" onchange="handleFiles('chart2', this.files)"/> -->
             </div>
-          </div>
 
-          <div class='col-sm-6'>
-            <div id='chart'>
+            <br>
 
+            <div class='control'>
+              <label for="tolerance" class='input-label'>Precision Tolerance:</label>
+              <input id='tolerance' class='input' type='number' value="1" min="0" />
             </div>
-          </div>
+
+            <br>
+
+            <div class='btn-wrapper'>
+              <button class='btn btn-blue' id='analyze'>ANALYZE</button>
+            </div>
+
+
+            <table class='analysis' id="analysis">
+              <thead>
+                <tr>
+                  <th>Key</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+
+              <tr>
+                <td>Points Inside/Outside:</td>
+                <td><span id='hits'></span></td>
+              </tr>
+              <!-- <tr>
+                <td>Error Spread:</td>
+                <td><span id='error'></span></td>
+              </tr> -->
+              <tr>
+                <td>Path Coverage:</td>
+                <td><span id='coverage'></span></td>
+              </tr>
+              <tr>
+                <td>Quadrant 1 Accuracy:</td>
+                <td><span id='q1accuracy'></span></td>
+              </tr>
+              <tr>
+                <td>Quadrant 2 Accuracy:</td>
+                <td><span id='q2accuracy'></span></td>
+              </tr>
+              <tr>
+                <td>Quadrant 3 Accuracy:</td>
+                <td><span id='q3accuracy'></span></td>
+              </tr>
+              <tr>
+                <td>Quadrant 4 Accuracy:</td>
+                <td><span id='q4accuracy'></span></td>
+              </tr>
+              <tr>
+                <td>Overall Positional Accuracy:</td>
+                <td><span id='accuracy'></span></td>
+              </tr>
+            </table>
+          </section>
+
+          <section class='col-sm-8 col-md-9 main'>
+            <i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
+            <div id='chart'></div>
+          </section>
 
         </div>
-
-      </section>
-
-      <section class="controls">
-        <div class='container'>
-
-          <div class='row'>
-
-            <div class='col-sm-6'>
-              <label>Control Dataset</label>
-
-              <div class='input-group'>
-                <textarea class='input' placeholder="Copy/paste calibration data" data-id='1' id='data1' class='pasteInput'></textarea> 
-              </div>
-
-              <!-- <div class='input-group'>
-                <input class="inputfile" type="file" name="file1" id="file1" onchange="handleFiles('chart1', this.files)"/>
-                <label id="file1-label" for="file1" class='btn btn-lg btn-secondary'> <span>Upload file</span></label>
-              </div> -->
-            </div>
-
-            <div class='col-sm-6'>
-              <label>Test Subject Data</label>
-
-              <div class='input-group'>
-                <textarea class='input' placeholder="Copy/paste PolyA-1 data" data-id='2' id='data2' class='pasteInput'></textarea> 
-              </div>
-
-              <!-- <div class='input-group'>
-                <input class="inputfile" type="file" name="file2" id="file2" onchange="handleFiles('chart2', this.files)"/>
-                <label id="file2-label" for="file2" class='btn btn-lg btn-terciary'> <span>Upload file</span></label>
-              </div> -->
-            </div>
-
-          </div>
-
-          <br>
-
-          <div class='tolerance'>
-            <label for="tolerance" class='input-label'>Precision Tolerance:</label>
-            <input class='input' type='text' value="1.0" />
-
-            <button class='btn btn-primary' id='analyze'>Analyze</button>
-          </div>
-
-        </div>
-      </section>
 
       </div>
+
+    </div>
   </body>
 
   <script src="js/polya-1.js" charset="utf-8"></script>

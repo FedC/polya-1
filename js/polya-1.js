@@ -217,7 +217,7 @@ function analyzeData() {
       let coverage = parseFloat(coverage_areas_count / 4 * 100).toFixed(3);
 
       $('#hits').html( hits + "/" + DATA[2].length );
-      $('#error').html( error_spread );
+      // $('#error').html( error_spread );
       $('#q1accuracy').html( coverage_areas['quadrant1'].accuracy + "%" );
       $('#q2accuracy').html( coverage_areas['quadrant2'].accuracy + "%" );
       $('#q3accuracy').html( coverage_areas['quadrant3'].accuracy + "%" );
@@ -247,14 +247,14 @@ function distance(p1, p2) {
 
 function plot() {
 
-  console.log( JSON.stringify(DATA[1]) )
-
 	$('#loadin').show();
 	$('#chart').html('');
 
+  var dimension = parseInt($(window).width() / 3.333);
+
 	var margin = {top: 20, right: 20, bottom: 30, left: 50},
-	    width = 300 - margin.left - margin.right,
-	    height = 300 - margin.top - margin.bottom;
+	    width = dimension - margin.left - margin.right,
+	    height = dimension - margin.top - margin.bottom;
 
 	var x = d3.scaleLinear().range([0, width]);
 	var y = d3.scaleLinear().range([height, 0]);

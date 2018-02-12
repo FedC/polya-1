@@ -1,101 +1,72 @@
-body {
-  background-color: #EBEEF3;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  font-family: "Helvetica", "Arial", "FreeSans", "Verdana", "Tahoma", "Lucida Sans", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  color: #454545;
+.page-wrapper::after {
+  display: none;
 }
 
-.btn {
-  border-radius: 0;
-  cursor: pointer;
-}
 
-.btn-secondary {
-  background-color: #fce95c;
-  border-color: #fce95c;
-  color: #1B293E;
-}
-
-.btn-terciary {
-  background-color: steelblue;
-  border-color: steelblue;
-  color: #1B293E;
-}
-
-.poly-header {
-  padding: .5em;
-  background-color: #1A283E;
-  color: #FFFFFF;
-}
-
-.poly-header .nav {
-  padding: .5em 0;
-}
-.poly-header .nav a {
-  margin: 0 .3em;
-  color: white;
-  text-decoration: none;
-}
-.poly-header .nav a:hover {
-  color: #087FF1;
-}
-
-.brand {
-  font-size: 150%;
-  color: white;
-  text-align: left;
-  margin-bottom: 10px;
-  text-transform: none;
-}
-.brand:hover {
-  text-decoration: none;
-}
-.brand:hover i {
-  transform: rotate(360deg);
-}
-.brand i {
-  font-size: inherit;
-  line-height: inherit;
-  margin-right: 7px;
-  position: relative;
-  top: 3px;
-  transition: all .3s;
-}
-
-.controls {
-  padding: 0;
-  padding-top: 2em;
-  background-color: #1A283E;
-  color: #FFFFFF;
+.sidebar {
+  background-color: #3b3e44;
   text-align: center;
-  padding-bottom: 2em;
-}
-@media only screen and (min-width: 990px) {
-
+  padding: 18px 5px;
 }
 
+.control {
+  margin: 0 1em;
+}
 
-.analysis-container {
-  // position: absolute;
-  // bottom: 0;
-  // left: 0;
-  // width: auto;
+.control label {
+  display: block;
+  color: #FFFFFF;
+}
+
+.control input,
+.control textarea {
   width: 100%;
-  padding: 1em;
+  height: 40px;
+  padding: 10px;
+  display: block;
+  resize: none;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
+
+.control input[type='number'] {
+  width: auto;
+  margin: auto;
+  text-align: center;
+}
+
+.control textarea {
+  height: 80px;
+}
+
+.main {
+  background-color: #131814;
+  padding-bottom: 40px;
+  position: relative;
+  text-align: center;
+}
+
+#chart {
+}
+
+.sidebar,
+.main {
+  min-height: 100vh;
+  min-height: calc(100vh - 125px);
+}
+
 
 table.analysis {
-  width: auto;
+  width: 100%;
+  margin: 2em auto 0 auto;
   color: white;
-
 }
-
 th {
-  padding: 6px;
-  background: #324663;
-  border: 1px solid #676767;
+  padding: 5px;
 }
 
 td {
@@ -103,77 +74,11 @@ td {
   border: 1px solid #31333e;
   padding: 5px;
 }
+
 td::after {
   font-weight: 500;
 }
 
-.input-group {
-  display: block;
-  margin: 5px 0;
-}
-
-.input {
-  text-align: left;
-  padding: 8px;
-  font-size: 1em;
-  font-weight: 700;
-  width: 100%;
-}
-
-.inputfile {
-  text-align: center;
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-
-.inputfile + label {
-  padding: 8px 0;
-  font-size: 1em;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 0;
-  -webkit-border-radius: 0;
-  width: 100%;
-}
-
-label.input-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type='text'] {
-  display: block;
-  width: 100%;
-  text-align: center;
-}
-
-.tolerance input[type='text'] {
-  width: 4em;
-  margin: 5px auto;
-}
-
-.tolerance {
-  width: 50%;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.chart-container {
-  background-color: #131814;
-  width: 100%;
-  padding-bottom: 40px;
-  min-height: 350px;
-  height: 50vh;
-  position: relative;
-}
-
-@media only screen and (min-width: 990px) {
-  
-}
 
 .chart-item {
   stroke: white;
@@ -197,6 +102,10 @@ text.chart-item {
 .control.line {
   stroke: #fce95c;
 }
+
+
+
+
 
 @-webkit-keyframes spin2 {
   from { -webkit-transform: rotate(0deg);}
@@ -227,11 +136,8 @@ text.chart-item {
   top: 50%;
   margin-top: -2em;
   margin-left: -2em;
-
   display: -webkit-box;
-
   display: -ms-flexbox;
-
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
