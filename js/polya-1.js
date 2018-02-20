@@ -99,7 +99,7 @@ function collectDataFromFile(options) {
 	    d[DATAX] = +d[keys[2]];
 	    d[DATAY] = +d[keys[1]];
 
-      // console.log( d );
+      console.log( d );
       DATA[options.set].push(d);
 
 	    RANGEX = Math.max(Math.abs(d[DATAX]), Math.abs(RANGEX));
@@ -120,127 +120,40 @@ function collectDataFromFile(options) {
 function analyzeData() {
 
   $('#loading').show();
-  $('#chart').hide();
+  // $('#chart').hide();
   $('#analysis').hide();
-
-  let error_spread = 0;
-
-  let coverage_areas = {
-    quadrant1: {
-      inside: false,
-      total_points: 0,
-      total_points_in: 0,
-      accuracy: null
-    },
-    quadrant2: {
-      inside: false, 
-      total_points: 0,
-      total_points_in: 0,
-      accuracy: null
-    },
-    quadrant3: {
-      inside: false, 
-      total_points: 0,
-      total_points_in: 0,
-      accuracy: null
-    },
-    quadrant4: {
-      inside: false,
-      total_points: 0,
-      total_points_in: 0,
-      accuracy: null
-    },
-  };
 
   setTimeout(function () {
 
     if (DATA[2].length > 0 && DATA[1].length > 0) {
 
-      DATA[2].forEach(d2 => {
-        let ankle2 = d2['Ankle Flex/Ext'];
-        let knee2 = d2['Knee Int/Ext R.'];
+      $.ajax({
+        type: "POST",
+        url: '/analyze',
+        data: {
+          dataset1: DATA[1],
+          dataset2: DATA[2],
+          tolerance: TOLERANCE
+        },
+        success: function(response) {
+          console.log(response);
 
-        let quadrant;
+          $('#hits').html( response.hits + "/" + DATA[2].length );
+          $('#q1accuracy').html( response.coverage_areas['quadrant1'].accuracy + "%" );
+          $('#q2accuracy').html( response.coverage_areas['quadrant2'].accuracy + "%" );
+          $('#q3accuracy').html( response.coverage_areas['quadrant3'].accuracy + "%" );
+          $('#q4accuracy').html( response.coverage_areas['quadrant4'].accuracy + "%" );
+          $('#accuracy').html( response.accuracy + "%" );
+          $('#coverage').html( response.coverage + '%' );
 
-        if (ankle2 < 0 && knee2 > 0) quadrant = 'quadrant1';
-        if (ankle2 < 0 && knee2 < 0) quadrant = 'quadrant2';
-        if (ankle2 > 0 && knee2 < 0) quadrant = 'quadrant3';
-        if (ankle2 > 0 && knee2 > 0) quadrant = 'quadrant4';
-
-        coverage_areas[quadrant].total_points++;
-        coverage_areas[quadrant].inside = true;
-
-        d2.inside = false;
-
-        DATA[1].some(d1 => {
-          let ankle1 = d1['Ankle Flex/Ext'];
-          let knee1 = d1['Knee Int/Ext R.'];
-          let dist = distance( {x: ankle1, y: knee1}, {x: ankle2, y: knee2} );
-
-          let d1quadrant = '';
-          if (ankle1 < 0 && knee1 > 0) d1quadrant = 'quadrant1';
-          if (ankle1 < 0 && knee1 < 0) d1quadrant = 'quadrant2';
-          if (ankle1 > 0 && knee1 < 0) d1quadrant = 'quadrant3';
-          if (ankle1 > 0 && knee1 > 0) d1quadrant = 'quadrant4';
-
-          if ( dist <= TOLERANCE ) {
-            // if this data point was never before marked inside
-            if (!d2.inside) coverage_areas[quadrant].total_points_in++;
-            // now we finally say this data point is inside
-            d2.inside = true;
-            return true; // point is inside no need to keep searching
-          } else {
-            // record error spread while they are in the same quadrant
-            if (d1quadrant == quadrant)
-              error_spread = Math.max(error_spread, dist);
-          }
-        });
-
+          $('#loading').hide();
+          // $('#chart').show();
+          $('#analysis').show();
+        }
       });
-
-      // let hits = 0;
-      // DATA[2].forEach(d => {
-      //   if (d.inside) hits++;
-      // });
-      let hits = DATA[2].filter(d => d.inside).length;
-
-      let accuracy = parseFloat( hits / DATA[2].length * 100).toFixed(3);
-
-      console.log(coverage_areas);
-
-      let coverage_areas_count = 0;
-      Object.keys(coverage_areas).forEach(k => {
-        if (coverage_areas[k].inside) coverage_areas_count++;
-        coverage_areas[k].accuracy = parseFloat(coverage_areas[k].total_points_in / coverage_areas[k].total_points * 100).toFixed(3);
-        if ( isNaN(coverage_areas[k].accuracy) ) coverage_areas[k].accuracy = 0;
-      });
-      let coverage = parseFloat(coverage_areas_count / 4 * 100).toFixed(3);
-
-      $('#hits').html( hits + "/" + DATA[2].length );
-      // $('#error').html( error_spread );
-      $('#q1accuracy').html( coverage_areas['quadrant1'].accuracy + "%" );
-      $('#q2accuracy').html( coverage_areas['quadrant2'].accuracy + "%" );
-      $('#q3accuracy').html( coverage_areas['quadrant3'].accuracy + "%" );
-      $('#q4accuracy').html( coverage_areas['quadrant4'].accuracy + "%" );
-      $('#accuracy').html( accuracy + "%" );
-      $('#coverage').html( coverage + '%' );
     }
 
-
-    $('#loading').hide();
-    $('#chart').show();
-    $('#analysis').show();
-
   }, 100);
-}
-
-
-function distance(p1, p2) {
-  /*
-    Distance = √(x2−x1)^2+(y2−y1)^2
-  */
-  return Math.sqrt( Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2) );
-
 }
 
 
