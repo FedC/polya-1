@@ -94,6 +94,12 @@ text.chart-item {
   stroke: white;
 }
 
+.tick text {
+  font-size: 2em;
+  stroke-width: 0;
+  fill: white;
+}
+
 .line {
   fill: none;
   stroke: steelblue;
@@ -103,8 +109,15 @@ text.chart-item {
   stroke: #fce95c;
 }
 
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.3;
+  shape-rendering: crispEdges;
+}
 
-
+.grid path {
+  stroke-width: 0;
+}
 
 
 @-webkit-keyframes spin2 {

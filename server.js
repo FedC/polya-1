@@ -175,7 +175,7 @@ app.post('/analyze', function(req, res) {
 });
 
 app.get('*.*', express.static(path.join(process.cwd()), {
-  maxAge: '1y'
+  maxAge: 2592000000
 }));
 
 app.listen(PORT, () => {
