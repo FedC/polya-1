@@ -1,0 +1,216 @@
+body { 
+  color: #444963;
+  padding-top: 1em;
+}
+
+main {
+  padding-bottom: 4em;
+}
+
+.jumbotron.main {
+  background-image: url(/images/main.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  color: white;
+  text-shadow: 0 2px 1px rgba(0,0,0,0.50);
+
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+}
+
+
+.form {
+  width: 100%;
+  padding: 1em;
+  border-radius: 3px;
+  border: 1px solid #E7E8ED;
+  background-color: #FAFAFC;
+  text-align: left;
+}
+
+.form.file-1 {
+  border-color: rgba(252, 234, 91, 1);
+}
+
+.form.file-2 {
+  border-color: rgba(70, 130, 180, 1);
+}
+
+.form.text-center {
+  text-align: center;
+}
+
+.form input {
+  margin-bottom: 1em;
+}
+
+.form .label {
+  display: block;
+  margin-bottom: 5px;
+  color: inherit;
+  text-align: inherit;
+  padding-left: 0;
+}
+
+.form .btn-primary {
+  margin: 1em auto 0;
+}
+
+input[type=text],
+input[type=tel],
+input[type=email],
+input[type=password],
+input[type=search],
+input[type=number] {
+  width: 100%;
+  border: 1px solid #E7E8ED;
+}
+
+textarea {
+  width: 100%;
+  height: 6em;
+  resize: none;
+  border: 1px solid #E7E8ED;
+}
+
+input[type=number] {
+  width: 6em;
+  display: block;
+  font-size: 120%;
+  padding: .5em;
+  margin: 0 auto;
+  text-align: center;
+}
+
+
+
+/* ---- Chart -----*/
+
+.chart-container {
+  background-color: #252525;
+  position: relative;
+  min-height: 400px;
+  position: relative;
+  text-align: center;
+  border-radius: 3px;
+  overflow: hidden;
+  color: white;
+}
+
+svg:not(:root) {
+  overflow: visible;
+}
+
+.chart-item {
+  stroke: white;
+}
+text.chart-item {
+  fill: white;
+  stroke: 0;
+}
+.domain {
+  stroke: white;
+}
+.tick line {
+  stroke: white;
+}
+
+.tick text {
+  font-size: 1.4em;
+  stroke-width: 0;
+  fill: white;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+.control.line {
+  stroke: #fce95c;
+}
+
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.3;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
+
+
+/* ----- Table ------*/
+
+.analysis-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0;
+}
+
+table {
+  width: 100%;
+  margin: 2em auto 0 auto;
+}
+
+th {
+  padding: 5px;
+}
+
+td {
+  text-align: left;
+  border: 1px solid lightgrey;
+  padding: 5px;
+}
+
+td::after {
+  font-weight: 500;
+}
+
+
+
+/* ---- Loading animation ---- */
+
+@-webkit-keyframes spin2 {
+  from { -webkit-transform: rotate(0deg);}
+  to { -webkit-transform: rotate(360deg);}
+}
+
+@-webkit-keyframes spin {
+  from { -webkit-transform: scale(1) rotate(0deg); transform: scale(1) rotate(0deg);}
+  to { -webkit-transform: scale(1) rotate(360deg); transform: scale(1) rotate(360deg);}
+}
+
+@keyframes spin {
+  from { -webkit-transform: scale(1) rotate(0deg); transform: scale(1) rotate(0deg);}
+  to { -webkit-transform: scale(1) rotate(360deg); transform: scale(1) rotate(360deg);}
+}
+
+.icon-animate {
+  animation: spin .7s infinite linear;
+  -webkit-animation: spin2 .7s infinite linear;
+}
+
+.loading {
+  color: inherit;
+  position: absolute;
+  width: 4em;
+  height: 4em;
+  left: 50%;
+  top: 50%;
+  margin-top: -2em;
+  margin-left: -2em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}

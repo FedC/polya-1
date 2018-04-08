@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include ../partials/head %>
+</head>
+<body class="container">
+
+	<header>
+		<% include ../partials/header %>
+	</header>
+
+	<main>
+
+		<div class="jumbotron main">
+			<h1>POLYA-1</h1>
+			<p></p>
+		</div>
+
+		<h2>Path Comparison Analysis</h2>
+
+		<h3>Instructions</h3>
+
+		<ul>
+			<li>
+				Please be sure to <a href="/calibration">calibrate Polya-1</a> machine before performing tests. Instructions can be found <a href="/calibration">here</a>.
+			</li>
+
+			<li>
+				After <a href="/recording">recording the data</a>, "Copy" and "Paste" the Polya-1 readings or you may choose to upload the (.txt) file.
+			</li>
+		</ul>
+
+		<!--  -->
+		<hr>
+		<!--  -->
+
+		<h3>Precision Tolerance</h3>
+
+		<p>
+		 	The <b>tolerance</b> is the maximum path <i>deviation</i> to analyze.
+		</p>
+
+		<p>
+			The smaller the tolerance, the less margin for error and more precise the analysis will be. 
+    </p>
+
+		<p>A value of <b>1.0</b> is set by default.</p>
+
+		<div class='row'>
+			<div class='col-sm-4 col-sm-offset-4'>
+				<form action="javascript:void(0)" class='form text-center'>
+
+	        <label class='label'>Precision</label>
+	        <input id='tolerance' class='input' type='number' value="1" min="0" step="0.1" />
+
+		      <button class='btn btn-primary' type='submit'>Update</button>
+				</form>
+			</div>
+		</div>
+
+    <!--  -->
+    <hr>
+    <!--  -->
+
+		<h3>Paths To Compare</h3>
+
+		<div class='row'>
+			<div class='col-sm-6'>
+				<form action="javascript:void(0)" class='form file-1'>
+
+          <label class='label'>Data 1</label>
+          <textarea class='input' placeholder="Paste readings here" data-id='1' id='data1' class='pasteInput'></textarea>
+
+          <label class='label'>..or upload file</label>
+          <input class="inputfile" type="file" name="file1" id="file1"/>
+
+          <p><small><b>Note:</b> to upload files, they must be a valid TSV (Tab Separated Value) format and it must not have file headers other than column labels.</small></p>
+
+          <button class='btn btn-primary' type='submit'>Update</button>
+
+        </form>
+      </div>
+
+      <div class='col-sm-6'>
+      	<form action="javascript:void(0)" class='form file-2'>
+
+          <label class='label'>Data 2</label>
+          <textarea class='input' placeholder="Paste readings here" data-id='2' id='data2' class='pasteInput'></textarea> 
+
+          <label class='label'>..or upload file</label>
+          <input class="inputfile" type="file" name="file2" id="file2"/>
+
+          <p><small><b>Note:</b> to upload files, they must be a valid TSV (Tab Separated Value) format and it must not have file headers other than column labels.</small></p>
+
+          <button class='btn btn-primary' type='submit'>Update</button>
+
+				</form>
+			</div>
+		</div>
+
+		<!--  -->
+		<hr>
+		<!--  -->
+
+		
+
+		<section class='chart-container'>
+			<i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
+
+      <div id='chart'></div>
+		</section>
+
+
+    <!--  -->
+    <hr>
+    <!--  -->
+
+
+    <h3>Analysis</h3>
+    <section class='analysis-container'>
+
+      <i id='loading-analysis' class="loading material-icons icon-animate">3d_rotation</i>
+
+      <table class='analysis' id="analysis">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+
+        <tr>
+          <td>Points Within Tolerance:</td>
+          <td><span id='hits'></span></td>
+        </tr>
+        <!-- <tr>
+          <td>Error Spread:</td>
+          <td><span id='error'></span></td>
+        </tr> -->
+        <tr>
+          <td>Path Coverage:</td>
+          <td><span id='coverage'></span></td>
+        </tr>
+        <tr>
+          <td>Quadrant 1 Accuracy:</td>
+          <td><span id='q1accuracy'></span></td>
+        </tr>
+        <tr>
+          <td>Quadrant 2 Accuracy:</td>
+          <td><span id='q2accuracy'></span></td>
+        </tr>
+        <tr>
+          <td>Quadrant 3 Accuracy:</td>
+          <td><span id='q3accuracy'></span></td>
+        </tr>
+        <tr>
+          <td>Quadrant 4 Accuracy:</td>
+          <td><span id='q4accuracy'></span></td>
+        </tr>
+        <tr>
+          <td>Overall Positional Accuracy:</td>
+          <td><span id='accuracy'></span></td>
+        </tr>
+      </table>
+
+    </section>
+
+
+	</main>
+
+	<footer>
+		<% include ../partials/footer %>
+	</footer>
+	
+</body>
+</html>

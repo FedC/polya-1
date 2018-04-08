@@ -1,3 +1,11 @@
-PolyA-1 Data Analysis
-=====================
+Polya-1
+=======
 
+
+### Development
+
+Start app 
+
+```
+npm run dev
+```
