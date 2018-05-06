@@ -72,7 +72,7 @@
           <textarea class='input' placeholder="Paste readings here" data-id='1' id='data1' class='pasteInput'></textarea>
 
           <label class='label'>..or upload file</label>
-          <input class="inputfile" type="file" name="file1" id="file1"/>
+          <input class="inputfile" type="file" name="file1" id="file1" data-id='1'/>
 
           <p><small><b>Note:</b> to upload files, they must be a valid TSV (Tab Separated Value) format and it must not have file headers other than column labels.</small></p>
 
@@ -88,7 +88,7 @@
           <textarea class='input' placeholder="Paste readings here" data-id='2' id='data2' class='pasteInput'></textarea> 
 
           <label class='label'>..or upload file</label>
-          <input class="inputfile" type="file" name="file2" id="file2"/>
+          <input class="inputfile" type="file" name="file2" id="file2" data-id='2'/>
 
           <p><small><b>Note:</b> to upload files, they must be a valid TSV (Tab Separated Value) format and it must not have file headers other than column labels.</small></p>
 
@@ -158,7 +158,7 @@
           <td><span id='q4accuracy'></span></td>
         </tr>
         <tr>
-          <td>Overall Positional Accuracy:</td>
+          <td><b>Overall Positional Accuracy:</b></td>
           <td><span id='accuracy'></span></td>
         </tr>
       </table>

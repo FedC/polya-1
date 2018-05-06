@@ -1,13 +1,72 @@
 const express = require('express');
-const router = express.Router();
+const router  = express.Router();
+const datalib = require('datalib');
+const sample  = require('d3fc-sample');
+
+const SAMPLE_BUCKET_SIZE = 1.5;
+
+const sampler = sample.largestTriangleThreeBucket();
+
+sampler.x(d => d['Ankle Flex/Ext'])
+      .y(d => d['Knee Int/Ext R.']);
+
+// Configure the size of the buckets used to downsample the data.
+sampler.bucketSize( SAMPLE_BUCKET_SIZE );
+
+let distance = function(p1, p2) {
+  /*
+    Distance = √(x2−x1)^2+(y2−y1)^2
+  */
+  return Math.sqrt( Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2) );
+}
+
+
+let determineQuadrant = function(p1, p2) {
+  let quadrant;
+
+  if (p1 < 0 && p2 > 0) quadrant = 'quadrant1';
+  if (p1 < 0 && p2 < 0) quadrant = 'quadrant2';
+  if (p1 > 0 && p2 < 0) quadrant = 'quadrant3';
+  if (p1 > 0 && p2 > 0) quadrant = 'quadrant4';
+
+  return quadrant;
+} 
 
 router.post('/analyze', function(req, res) {
 
-  let tolerance = req.body.tolerance || 1;
-
   let dataset1 = [];
   let dataset2 = [];
+  let error_spread = 0;
+  let tolerance = req.body.tolerance || 1;
 
+  let coverage_areas = {
+    quadrant1: {
+      inside: false,
+      total_points: 0,
+      total_points_in: 0,
+      accuracy: null
+    },
+    quadrant2: {
+      inside: false, 
+      total_points: 0,
+      total_points_in: 0,
+      accuracy: null
+    },
+    quadrant3: {
+      inside: false, 
+      total_points: 0,
+      total_points_in: 0,
+      accuracy: null
+    },
+    quadrant4: {
+      inside: false,
+      total_points: 0,
+      total_points_in: 0,
+      accuracy: null
+    },
+  };
+
+  // Parse datasets from payload
   Object.keys(req.body).forEach(k => {
     if (k.includes('dataset')) {
 
@@ -37,80 +96,48 @@ router.post('/analyze', function(req, res) {
 
   if (!dataset1 || !dataset2) return res.status(500).send('No valid data provided');
 
-  let distance = function(p1, p2) {
-    /*
-      Distance = √(x2−x1)^2+(y2−y1)^2
-    */
-    return Math.sqrt( Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2) );
-  }
 
-  let error_spread = 0;
+  var sampledDataset1 = sampler(dataset1);
+  console.log(`Reduced data size from ${dataset1.length} to ${sampledDataset1.length}`);
 
-  let coverage_areas = {
-    quadrant1: {
-      inside: false,
-      total_points: 0,
-      total_points_in: 0,
-      accuracy: null
-    },
-    quadrant2: {
-      inside: false, 
-      total_points: 0,
-      total_points_in: 0,
-      accuracy: null
-    },
-    quadrant3: {
-      inside: false, 
-      total_points: 0,
-      total_points_in: 0,
-      accuracy: null
-    },
-    quadrant4: {
-      inside: false,
-      total_points: 0,
-      total_points_in: 0,
-      accuracy: null
-    },
-  };
 
-  dataset2.forEach(d2 => {
-    let ankle2 = d2['Ankle Flex/Ext'];
-    let knee2 = d2['Knee Int/Ext R.'];
+  var sampledDataset2 = sampler(dataset2);
+  console.log(`Reduced data size from ${dataset2.length} to ${sampledDataset2.length}`);
 
-    let quadrant;
 
-    if (ankle2 < 0 && knee2 > 0) quadrant = 'quadrant1';
-    if (ankle2 < 0 && knee2 < 0) quadrant = 'quadrant2';
-    if (ankle2 > 0 && knee2 < 0) quadrant = 'quadrant3';
-    if (ankle2 > 0 && knee2 > 0) quadrant = 'quadrant4';
+  sampledDataset2.forEach(d2 => {
+    let ankle2   = d2['Ankle Flex/Ext'];
+    let knee2    = d2['Knee Int/Ext R.'];
+
+    let quadrant = determineQuadrant(ankle2, knee2);
 
     coverage_areas[quadrant].total_points++;
+
     coverage_areas[quadrant].inside = true;
 
     d2.inside = false;
 
-    dataset1.some(d1 => {
+    sampledDataset1.some(d1 => {
       let ankle1 = d1['Ankle Flex/Ext'];
       let knee1 = d1['Knee Int/Ext R.'];
-      let dist = distance( {x: ankle1, y: knee1}, {x: ankle2, y: knee2} );
 
-      let d1quadrant = '';
-      if (ankle1 < 0 && knee1 > 0) d1quadrant = 'quadrant1';
-      if (ankle1 < 0 && knee1 < 0) d1quadrant = 'quadrant2';
-      if (ankle1 > 0 && knee1 < 0) d1quadrant = 'quadrant3';
-      if (ankle1 > 0 && knee1 > 0) d1quadrant = 'quadrant4';
+      if (determineQuadrant(ankle1, knee1) == quadrant) {
 
-      if ( dist <= tolerance ) {
-        // if this data point was never before marked inside
-        if (!d2.inside) coverage_areas[quadrant].total_points_in++;
-        // now we finally say this data point is inside
-        d2.inside = true;
-        return true; // point is inside no need to keep searching
-      } else {
-        // record error spread while they are in the same quadrant
-        if (d1quadrant == quadrant)
+        let dist = distance( {x: ankle1, y: knee1}, {x: ankle2, y: knee2} );
+
+        if ( dist <= tolerance ) {
+          // if this data point was never before marked inside
+          if (!d2.inside) coverage_areas[quadrant].total_points_in++;
+          // now we finally say this data point is inside
+          d2.inside = true;
+          return true; // point is inside no need to keep searching
+        } else {
+          // record error spread while they are in the same quadrant
           error_spread = Math.max(error_spread, dist);
+        }
+
       }
+
     });
 
   });
@@ -138,7 +165,6 @@ router.post('/analyze', function(req, res) {
   };
 
   res.send(response);
-
 });
 
 module.exports = router;
