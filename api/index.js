@@ -121,6 +121,7 @@ router.post('/analyze', function(req, res) {
       let ankle1 = d1['Ankle Flex/Ext'];
       let knee1 = d1['Knee Int/Ext R.'];
 
+      // only if points are inside of quadrant we are analyzing
       if (determineQuadrant(ankle1, knee1) == quadrant) {
 
         let dist = distance( {x: ankle1, y: knee1}, {x: ankle2, y: knee2} );
@@ -130,7 +131,9 @@ router.post('/analyze', function(req, res) {
           if (!d2.inside) coverage_areas[quadrant].total_points_in++;
           // now we finally say this data point is inside
           d2.inside = true;
-          return true; // point is inside no need to keep searching
+
+          return d2.inside; // no need to keep searching
+
         } else {
           // record error spread while they are in the same quadrant
           error_spread = Math.max(error_spread, dist);
@@ -143,9 +146,9 @@ router.post('/analyze', function(req, res) {
   });
 
 
-  let hits = dataset2.filter(d => d.inside).length;
+  let hits = sampledDataset2.filter(d => d.inside).length;
 
-  let accuracy = parseFloat( hits / dataset2.length * 100).toFixed(3);
+  let accuracy = parseFloat( hits / sampledDataset2.length * 100).toFixed(3);
 
   let coverage_areas_count = 0;
 
@@ -161,7 +164,8 @@ router.post('/analyze', function(req, res) {
     coverage_areas: coverage_areas,
     accuracy: accuracy,
     coverage: coverage,
-    hits: hits
+    hits: hits,
+    totalSampledPoints: sampledDataset2.length
   };
 
   res.send(response);

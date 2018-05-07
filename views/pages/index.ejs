@@ -9,24 +9,23 @@
 		<% include ../partials/header %>
 	</header>
 
-	<main>
 
-		<div class="jumbotron main">
-			<h1>POLYA-1</h1>
-			<p></p>
-		</div>
+  <div class="jumbotron main">
+    <h1>PolyA-1</h1>
+    <p>Path Comparison Analysis</p>
+  </div>
 
-		<h2>Path Comparison Analysis</h2>
+	<main class='content'>
 
-		<h3>Instructions</h3>
+		<h2>Instructions</h2>
 
 		<ul>
 			<li>
-				Please be sure to <a href="/calibration">calibrate Polya-1</a> machine before performing tests. Instructions can be found <a href="/calibration">here</a>.
+				Please be sure to calibrate Polya-1 machine before performing tests. Instructions can be found <a href="#">here</a>.
 			</li>
 
 			<li>
-				After <a href="/recording">recording the data</a>, "Copy" and "Paste" the Polya-1 readings or you may choose to upload the (.txt) file.
+				After recording the data, upload the file that the Goniometer software outputs or "Copy" and "Paste" the path readings.
 			</li>
 		</ul>
 
@@ -38,16 +37,15 @@
 
 		<p>
 		 	The <b>tolerance</b> is the maximum path <i>deviation</i> to analyze.
+      A value of <b>1.0</b> is set by default.
 		</p>
 
 		<p>
-			The smaller the tolerance, the less margin for error and more precise the analysis will be. 
+			The smaller the tolerance, the less margin for error and more precise the analysis will be.
     </p>
 
-		<p>A value of <b>1.0</b> is set by default.</p>
-
 		<div class='row'>
-			<div class='col-sm-4 col-sm-offset-4'>
+			<div class='col-sm-4'>
 				<form action="javascript:void(0)" class='form text-center'>
 
 	        <label class='label'>Precision</label>
@@ -69,12 +67,10 @@
 				<form action="javascript:void(0)" class='form file-1'>
 
           <label class='label'>Data 1</label>
-          <textarea class='input' placeholder="Paste readings here" data-id='1' id='data1' class='pasteInput'></textarea>
+          <textarea class='input' placeholder="Copy/Paste readings here" data-id='1' id='data1' class='pasteInput'></textarea>
 
           <label class='label'>..or upload file</label>
           <input class="inputfile" type="file" name="file1" id="file1" data-id='1'/>
-
-          <p><small><b>Note:</b> to upload files, they must be a valid TSV (Tab Separated Value) format and it must not have file headers other than column labels.</small></p>
 
           <button class='btn btn-primary' type='submit'>Update</button>
 
@@ -85,12 +81,10 @@
       	<form action="javascript:void(0)" class='form file-2'>
 
           <label class='label'>Data 2</label>
-          <textarea class='input' placeholder="Paste readings here" data-id='2' id='data2' class='pasteInput'></textarea> 
+          <textarea class='input' placeholder="Copy/Paste readings here" data-id='2' id='data2' class='pasteInput'></textarea> 
 
           <label class='label'>..or upload file</label>
           <input class="inputfile" type="file" name="file2" id="file2" data-id='2'/>
-
-          <p><small><b>Note:</b> to upload files, they must be a valid TSV (Tab Separated Value) format and it must not have file headers other than column labels.</small></p>
 
           <button class='btn btn-primary' type='submit'>Update</button>
 
@@ -102,25 +96,15 @@
 		<hr>
 		<!--  -->
 
-		
 
-		<section class='chart-container'>
-			<i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
-
-      <div id='chart'></div>
-		</section>
-
-
-    <!--  -->
-    <hr>
-    <!--  -->
-
-
-    <h3>Analysis</h3>
     <section class='analysis-container'>
 
-      <i id='loading-analysis' class="loading material-icons icon-animate">3d_rotation</i>
-
+      <div id='loading-analysis'>
+        <i class="loading material-icons icon-animate">3d_rotation</i>
+        <br><br>
+        <h3>Analyzing paths...</h3>
+      </div>
+    
       <table class='analysis' id="analysis">
         <thead>
           <tr>
@@ -142,19 +126,19 @@
           <td><span id='coverage'></span></td>
         </tr>
         <tr>
-          <td>Quadrant 1 Accuracy:</td>
+          <td>Quadrant I Accuracy:</td>
           <td><span id='q1accuracy'></span></td>
         </tr>
         <tr>
-          <td>Quadrant 2 Accuracy:</td>
+          <td>Quadrant II Accuracy:</td>
           <td><span id='q2accuracy'></span></td>
         </tr>
         <tr>
-          <td>Quadrant 3 Accuracy:</td>
+          <td>Quadrant III Accuracy:</td>
           <td><span id='q3accuracy'></span></td>
         </tr>
         <tr>
-          <td>Quadrant 4 Accuracy:</td>
+          <td>Quadrant IV Accuracy:</td>
           <td><span id='q4accuracy'></span></td>
         </tr>
         <tr>
@@ -162,8 +146,22 @@
           <td><span id='accuracy'></span></td>
         </tr>
       </table>
-
+  
     </section>
+
+
+    <!--  -->
+    <hr>
+    <!--  -->
+
+		
+
+		<section class='chart-container'>
+			<i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
+
+      <div id='chart'></div>
+		</section>
+
 
 
 	</main>

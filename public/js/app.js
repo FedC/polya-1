@@ -29,7 +29,7 @@ $( document ).ready(function() {
 
   // Set UI states
   $('#loading, #loading-analysis').hide();
-
+  $('#analysis').hide();
 
   // Event handlers
 
@@ -124,6 +124,7 @@ $( document ).ready(function() {
     if (DATA[2].length > 0 && DATA[1].length > 0) {
 
       $('#loading-analysis').show();
+      $('#analysis').hide();
 
       setTimeout(function () {
         $.ajax({
@@ -137,7 +138,7 @@ $( document ).ready(function() {
           success: function(response) {
             console.log(response);
 
-            $('#hits').html( response.hits + "/" + DATA[2].length );
+            $('#hits').html( response.hits + "/" + response.totalSampledPoints );
             $('#q1accuracy').html( response.coverage_areas['quadrant1'].accuracy + "%" );
             $('#q2accuracy').html( response.coverage_areas['quadrant2'].accuracy + "%" );
             $('#q3accuracy').html( response.coverage_areas['quadrant3'].accuracy + "%" );
@@ -146,6 +147,7 @@ $( document ).ready(function() {
             $('#coverage').html( response.coverage + '%' );
 
             $('#loading-analysis').hide();
+            $('#analysis').show();
           }
         });
       }, 100);
@@ -168,7 +170,7 @@ $( document ).ready(function() {
 
 
   function plot() {
-    $('#loadin').show();
+    $('#loading').show();
     $('#chart').html('');
 
     var dimension = parseInt($('.chart-container').height() * .9);
@@ -256,7 +258,7 @@ $( document ).ready(function() {
         .attr("d", valueline);
 
 
-    $('#loadin').hide();
+    $('#loading').hide();
   }
 
   plot();

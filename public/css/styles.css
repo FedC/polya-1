@@ -7,19 +7,18 @@ main {
   padding-bottom: 4em;
 }
 
-.jumbotron.main {
-  background-image: url(/images/main.png);
+.jumbotron {
+  background-image: url(/images/bg.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 
   color: white;
-  text-shadow: 0 2px 1px rgba(0,0,0,0.50);
-
-  padding-top: 10rem;
-  padding-bottom: 10rem;
 }
 
+.content {
+  padding: 0 1rem;
+}
 
 .form {
   width: 100%;
@@ -90,6 +89,9 @@ input[type=number] {
 
 .chart-container {
   background-color: #252525;
+  background-image: url(/images/quadrants.png);
+  background-repeat: no-repeat;
+  background-position: center;
   position: relative;
   min-height: 400px;
   position: relative;
@@ -97,6 +99,7 @@ input[type=number] {
   border-radius: 3px;
   overflow: hidden;
   color: white;
+  margin-bottom: 6em;
 }
 
 svg:not(:root) {
@@ -149,7 +152,8 @@ text.chart-item {
 .analysis-container {
   position: relative;
   max-width: 600px;
-  margin: 0;
+  margin: 0 auto;
+  text-align: center;
 }
 
 table {
