@@ -9,93 +9,116 @@
 		<% include ../partials/header %>
 	</header>
 
-
-  <div class="jumbotron main">
-    <h1>PolyA-1</h1>
-    <p>Path Comparison Analysis</p>
-  </div>
-
 	<main class='content'>
 
 		<h2>Instructions</h2>
 
 		<ul>
 			<li>
-				Please be sure to calibrate Polya-1 machine before performing tests. Instructions can be found <a href="#">here</a>.
+				Please be sure to calibrate Polya-1 machine using the <b>3D-Goniometer Software</b> before performing tests.
 			</li>
+
+      <li>
+        File #1 should be the controlled path to compare to.
+      </li>
 
 			<li>
-				After recording the data, upload the file that the Goniometer software outputs or "Copy" and "Paste" the path readings.
+				After recording the data, upload the file that the Goniometer software outputs.
 			</li>
+
+      <li>
+        Each recording should be recorded to a new file.
+      </li>
 		</ul>
-
-		<!--  -->
-		<hr>
-		<!--  -->
-
-		<h3>Precision Tolerance</h3>
-
-		<p>
-		 	The <b>tolerance</b> is the maximum path <i>deviation</i> to analyze.
-      A value of <b>1.0</b> is set by default.
-		</p>
-
-		<p>
-			The smaller the tolerance, the less margin for error and more precise the analysis will be.
-    </p>
-
-		<div class='row'>
-			<div class='col-sm-4'>
-				<form action="javascript:void(0)" class='form text-center'>
-
-	        <label class='label'>Precision</label>
-	        <input id='tolerance' class='input' type='number' value="1" min="0" step="0.1" />
-
-		      <button class='btn btn-primary' type='submit'>Update</button>
-				</form>
-			</div>
-		</div>
 
     <!--  -->
     <hr>
     <!--  -->
 
-		<h3>Paths To Compare</h3>
-
 		<div class='row'>
 			<div class='col-sm-6'>
 				<form action="javascript:void(0)" class='form file-1'>
 
-          <label class='label'>Data 1</label>
-          <textarea class='input' placeholder="Copy/Paste readings here" data-id='1' id='data1' class='pasteInput'></textarea>
+          <!-- <textarea class='input' placeholder="Copy/Paste readings here" data-id='1' id='data1' class='pasteInput'></textarea> -->
 
-          <label class='label'>..or upload file</label>
           <input class="inputfile" type="file" name="file1" id="file1" data-id='1'/>
+          <label for="file1" class='file-1-label'>
+            <i class="material-icons">cloud_upload</i>
+            <span>File #1</span>
+          </label>
 
-          <button class='btn btn-primary' type='submit'>Update</button>
+          <!-- <div class='text-center'>
+            <button class='btn btn-primary' type='submit'>Update</button>
+          </div> -->
 
         </form>
+
+        <div class='download-section' id='file1-download-section'>
+          <button class='btn btn-download download-csv' data-file="1">
+            <i class="material-icons">cloud_download</i>
+            <span>Download file-1.csv</span>
+          </button>
+        </div>
       </div>
 
       <div class='col-sm-6'>
       	<form action="javascript:void(0)" class='form file-2'>
 
-          <label class='label'>Data 2</label>
-          <textarea class='input' placeholder="Copy/Paste readings here" data-id='2' id='data2' class='pasteInput'></textarea> 
+          <!-- <textarea class='input' placeholder="Copy/Paste readings here" data-id='2' id='data2' class='pasteInput'></textarea>  -->
 
-          <label class='label'>..or upload file</label>
           <input class="inputfile" type="file" name="file2" id="file2" data-id='2'/>
+          <label for="file2" class='file-2-label'>
+            <i class="material-icons">cloud_upload</i>
+            <span>File #2</span>
+          </label>
 
-          <button class='btn btn-primary' type='submit'>Update</button>
+          <!-- <div class='text-center'>
+            <button class='btn btn-primary' type='submit'>Update</button>
+          </div> -->
 
 				</form>
+
+        <div class='download-section' id='file2-download-section'>
+          <button class='btn btn-download download-csv' data-file="2">
+            <i class="material-icons">cloud_download</i>
+            <span>Download file-2.csv</span>
+          </button>
+        </div>
 			</div>
+
 		</div>
 
 		<!--  -->
 		<hr>
 		<!--  -->
 
+    <div class='text-center'>
+      <h3>Precision Tolerance</h3>
+
+      <p>
+        The <b>tolerance</b> is the maximum path <i>deviation</i> to analyze.
+        A value of <b>1.0</b> is set by default.
+      </p>
+
+      <p>
+        The smaller the tolerance, the less margin for error and more precise the analysis will be.
+      </p>
+
+      <div class='row'>
+        <div class='col-sm-4 col-sm-offset-4'>
+          <form action="javascript:void(0)" class='form text-center'>
+
+            <input id='tolerance' class='input' type='number' value="1" min="0" step="0.1" />
+
+            <button class='btn btn-primary' type='submit'>Update</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--  -->
+    <hr>
+    <!--  -->
 
     <section class='analysis-container'>
 
@@ -146,7 +169,15 @@
           <td><span id='accuracy'></span></td>
         </tr>
       </table>
-  
+
+
+      <div class='download-section' id='download-analysis'>
+        <button class='btn btn-download download-csv'>
+          <i class="material-icons">cloud_download</i>
+          <span>Download analysis.csv</span>
+        </button>
+      </div>
+
     </section>
 
 
@@ -154,13 +185,22 @@
     <hr>
     <!--  -->
 
-		
+    <div class='download-section text-right' id='download-chart'>
+      <button class='btn btn-download download-png' id="download-chart">
+        <i class="material-icons">cloud_download</i>
+        <span>Downloand chart.png</span>
+      </button>
 
-		<section class='chart-container'>
+      <br><br>
+    </div>
+
+		<section class='chart-container' id="chart-container">
 			<i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
 
       <div id='chart'></div>
 		</section>
+
+    
 
 
 

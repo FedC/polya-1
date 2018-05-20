@@ -23,11 +23,6 @@ app.get('/', function(req, res) {
 	res.render('pages/index');
 });
 
-// about page 
-app.get('/about', function(req, res) {
-	res.render('pages/about');
-});
-
 app.use('/api', require('./api'));
 
 app.listen(PORT, () => {
