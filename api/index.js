@@ -103,7 +103,8 @@ router.post('/analyze', function(req, res) {
 
   var sampledDataset2 = sampler(dataset2);
   console.log(`Reduced data size from ${dataset2.length} to ${sampledDataset2.length}`);
-
+  
+  var intersection = [];
 
   sampledDataset2.forEach(d2 => {
     let ankle2   = d2['Ankle Flex/Ext'];
@@ -131,6 +132,9 @@ router.post('/analyze', function(req, res) {
           if (!d2.inside) coverage_areas[quadrant].total_points_in++;
           // now we finally say this data point is inside
           d2.inside = true;
+
+          // include intersection line with points that are found inside
+          intersection.push(d2);
 
           return d2.inside; // no need to keep searching
 
@@ -165,7 +169,8 @@ router.post('/analyze', function(req, res) {
     accuracy: accuracy,
     coverage: coverage,
     hits: hits,
-    totalSampledPoints: sampledDataset2.length
+    totalSampledPoints: sampledDataset2.length,
+    intersection: intersection
   };
 
   res.send(response);

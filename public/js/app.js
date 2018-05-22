@@ -1,5 +1,5 @@
 // Client side data storage
-var DATA = { 1: [], 2: [] };
+var DATA = { 1: [], 2: [], 3: [] };
 // Chart axis ranges 
 //(a value of 20 extends from -20 to 20);
 var RANGEX = 20;
@@ -170,6 +170,10 @@ $( document ).ready(function() {
 
       .control.line {
         stroke: #fce95c;
+      }
+
+      .intersection {
+        stroke: #ff3b3b;
       }
     `;
 
@@ -401,6 +405,8 @@ $( document ).ready(function() {
 
             ANALYSIS = response;
 
+            plot(); // now with analysis data
+
             $('#hits').html( response.hits + "/" + response.totalSampledPoints );
             $('#q1accuracy').html( response.coverage_areas['quadrant1'].accuracy + "%" );
             $('#q2accuracy').html( response.coverage_areas['quadrant2'].accuracy + "%" );
@@ -521,6 +527,18 @@ $( document ).ready(function() {
         .data([DATA['2']])
         .attr("class", "actual line")
         .attr("d", valueline);
+
+    if ( ANALYSIS ) {
+      chart.selectAll("dot")
+        .data(ANALYSIS.intersection)
+        .enter()
+        .append("circle")
+        .attr("class", "intersection")
+        .attr("r", 1)
+        .attr("cx", function(d) { return x(d[DATAX]); })
+        .attr("cy", function(d) { return y(d[DATAY]); });
+
+    }
 
     DIMENSION = dimension;
     SVG = svg;

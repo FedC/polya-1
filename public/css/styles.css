@@ -214,6 +214,9 @@ text.chart-item {
 .control.line {
   stroke: #fce95c;
 }
+.intersection {
+  stroke: #ff3b3b;
+}
 
 .grid line {
   stroke: lightgrey;
