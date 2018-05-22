@@ -456,7 +456,7 @@ $( document ).ready(function() {
 
     // Scale the range of the data
     x.domain([-RANGEX, RANGEX]).range([0, width]).nice();
-    y.domain([-RANGEY, RANGEY]).range([0, height]).nice();
+    y.domain([-RANGEY, RANGEY]).range([height, 0]).nice();
 
 
     // add the X gridlines
