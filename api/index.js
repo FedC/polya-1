@@ -24,10 +24,10 @@ let distance = function(p1, p2) {
 let determineQuadrant = function(p1, p2) {
   let quadrant;
 
-  if (p1 < 0 && p2 > 0) quadrant = 'quadrant1';
-  if (p1 < 0 && p2 < 0) quadrant = 'quadrant2';
-  if (p1 > 0 && p2 < 0) quadrant = 'quadrant3';
-  if (p1 > 0 && p2 > 0) quadrant = 'quadrant4';
+  if (p1 > 0 && p2 > 0) quadrant = 'quadrant1';
+  if (p1 < 0 && p2 > 0) quadrant = 'quadrant2';
+  if (p1 < 0 && p2 < 0) quadrant = 'quadrant3';
+  if (p1 > 0 && p2 < 0) quadrant = 'quadrant4';
 
   return quadrant;
 } 
