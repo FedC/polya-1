@@ -6,6 +6,8 @@ var bodyParser = require("body-parser");
 
 var PORT = process.env.PORT || 3000;
 
+app.use( require( './middleware/require_https') );
+
 app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'ejs');
