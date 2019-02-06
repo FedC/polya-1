@@ -201,7 +201,7 @@ input[type=number] {
   border-radius: 3px;
   overflow: hidden;
   color: white;
-  margin-bottom: 6em;
+  margin-bottom: 1em;
 }
 
 svg:not(:root) {
@@ -230,14 +230,14 @@ text.chart-item {
 
 .line {
   fill: none;
-  stroke: steelblue;
+  stroke: var(--primary-color);
   stroke-width: 2px;
 }
 .control.line {
-  stroke: #fce95c;
+  stroke: var(--secondary-color);
 }
 .intersection {
-  stroke: #ff3b3b;
+  stroke: var(--terciary-color);
 }
 
 .grid line {
@@ -321,4 +321,28 @@ td::after {
 
 #loading-analysis {
   display: block;
+}
+
+.chart-key {
+  display: flex;
+
+}
+
+.chart-key {
+  display: inline-block;
+  padding: 1em;
+}
+.chart-key > span {
+  padding: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.chart-key .key1 {
+  background-color: var(--secondary-color);
+}
+.chart-key .key2 {
+  background-color: var(--primary-color);
+}
+.chart-key .key3 {
+  background-color: var(--terciary-color);
 }
