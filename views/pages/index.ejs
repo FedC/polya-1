@@ -12,24 +12,22 @@
 	<main class='content'>
 
 		<h2>Instructions</h2>
+  	
+    <div class='alert alert-info' role='alert'>
+      <ul>
+  			<li>
+  				Be sure to calibrate the machine using the <b>3D-Goniometer Software</b> before performing tests.
+  			</li>
 
-		<ul>
-			<li>
-				Please be sure to calibrate Polya-1 machine using the <b>3D-Goniometer Software</b> before performing tests.
-			</li>
+  			<li>
+  				After recording the data, upload the files to compare.
+  			</li>
 
-      <li>
-        File #1 should be the controlled path to compare to.
-      </li>
-
-			<li>
-				After recording the data, upload the file that the Goniometer software outputs.
-			</li>
-
-      <li>
-        Each recording should be recorded to a new file.
-      </li>
-		</ul>
+        <li>
+          Each recorded file should only contain one trial run.
+        </li>
+  		</ul>
+    </div>
 
     <!--  -->
     <hr>
@@ -43,8 +41,8 @@
 
           <input class="inputfile" type="file" name="file1" id="file1" data-id='1'/>
           <label for="file1" class='file-1-label'>
-            <i class="material-icons">cloud_upload</i>
-            <span>File #1</span>
+            <small class='i'>Upload</small>
+            <span class='truncate'>File #1</span>
           </label>
 
           <!-- <div class='text-center'>
@@ -54,9 +52,15 @@
         </form>
 
         <div class='download-section' id='file1-download-section'>
-          <button class='btn btn-download download-csv' data-file="1">
+          <div class='loading-file' style="display:none;">
+            <span class='loading' style='padding-right:5px;'>
+              <i class="material-icons icon-animate">3d_rotation</i>
+            </span>
+            <span class='loading-text'>Reading file...</span>
+          </div>
+          <button class='btn btn-download download-csv' data-file="1" style="display:none;">
             <i class="material-icons">cloud_download</i>
-            <span>Download file-1.csv</span>
+            <span>Download (Excel)</span>
           </button>
         </div>
       </div>
@@ -68,8 +72,8 @@
 
           <input class="inputfile" type="file" name="file2" id="file2" data-id='2'/>
           <label for="file2" class='file-2-label'>
-            <i class="material-icons">cloud_upload</i>
-            <span>File #2</span>
+            <small class='i'>Upload</small>
+            <span class='truncate'>File #2</span>
           </label>
 
           <!-- <div class='text-center'>
@@ -79,102 +83,136 @@
 				</form>
 
         <div class='download-section' id='file2-download-section'>
-          <button class='btn btn-download download-csv' data-file="2">
+          <div class='loading-file' style="display:none;">
+            <span class='loading' style='padding-right:5px;'>
+              <i class="material-icons icon-animate">3d_rotation</i>
+            </span>
+            <span class='loading-text'>Reading file...</span>
+          </div>
+          <button class='btn btn-download download-csv' data-file="2" style="display:none;">
             <i class="material-icons">cloud_download</i>
-            <span>Download file-2.csv</span>
+            <span>Download (Excel)</span>
           </button>
         </div>
 			</div>
 
 		</div>
 
-		<!--  -->
-		<hr>
-		<!--  -->
+    <!--  -->
+    <hr>
+    <!--  -->
 
-    <div class='text-center'>
-      <h3>Precision Tolerance</h3>
+    <div class='download-section text-right' id='download-chart' style='display:none;'>
+      <button class='btn btn-download js-download-png' >
+        <i class="material-icons">cloud_download</i>
+        <span>Downloand (PNG)</span>
+      </button>
 
-      <p>
-        The <b>tolerance</b> is the maximum path <i>deviation</i> to analyze.
-        A value of <b>1.0</b> is set by default.
-      </p>
-
-      <p>
-        The smaller the tolerance, the less margin for error and more precise the analysis will be.
-      </p>
-
-      <div class='row'>
-        <div class='col-sm-4 col-sm-offset-4'>
-          <form action="javascript:void(0)" class='form text-center'>
-
-            <input id='tolerance' class='input' type='number' value="1" min="0" step="0.1" />
-
-            <button class='btn btn-primary' type='submit'>Update</button>
-          </form>
-        </div>
-      </div>
+      <br><br>
     </div>
+
+    <section class='chart-container' id="chart-container">
+      <i id='loading' class="loading material-icons icon-animate" style='display:none;'>3d_rotation</i>
+
+      <div id='chart'></div>
+    </section>
+
 
     <!--  -->
     <hr>
     <!--  -->
 
+    
+    <div class='section'>
+      <h3>Path Analysis</h3>
+
+      <div class='alert alert-info' role="alert">
+        <p>
+          The <b>tolerance</b> is the maximum path <i>deviation</i> to analyze.
+          A value of <b>1.0</b> is set by default.
+        </p>
+
+        <p>
+          The smaller the tolerance, the less margin for error and more precise the analysis will be.
+        </p>
+      </div>
+
+      <div class='row'>
+        <div class='col-sm-6 col-sm-offset-3'>
+          <form action="javascript:void(0)" class='form text-center'>
+            <label>Tolerance (Decimal #)</label>
+
+            <input id='tolerance' class='input' type='number' value="1" min="0" step="0.1" />
+
+            <button class='btn btn-primary' type='submit'>Run Analysis</button>
+          </form>
+        </div>
+      </div>
+
+
+    </div>
+
     <section class='analysis-container'>
 
-      <div id='loading-analysis'>
+      <div id='loading-analysis' style='display:none'>
         <i class="loading material-icons icon-animate">3d_rotation</i>
-        <br><br>
-        <h3>Analyzing paths...</h3>
       </div>
-    
-      <table class='analysis' id="analysis">
-        <thead>
+
+      <div id="analysis" style='display:none'>
+
+        <div class='text-left'>
+          <p id="message1"></p>
+          <p id="message2"></p>
+        </div>
+
+        <table class='analysis-table'>
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+
           <tr>
-            <th>Key</th>
-            <th>Value</th>
+            <td>Points Within Tolerance:</td>
+            <td><span id='hits'></span></td>
           </tr>
-        </thead>
-
-        <tr>
-          <td>Points Within Tolerance:</td>
-          <td><span id='hits'></span></td>
-        </tr>
-        <!-- <tr>
-          <td>Error Spread:</td>
-          <td><span id='error'></span></td>
-        </tr> -->
-        <tr>
-          <td>Path Coverage:</td>
-          <td><span id='coverage'></span></td>
-        </tr>
-        <tr>
-          <td>Quadrant I Accuracy:</td>
-          <td><span id='q1accuracy'></span></td>
-        </tr>
-        <tr>
-          <td>Quadrant II Accuracy:</td>
-          <td><span id='q2accuracy'></span></td>
-        </tr>
-        <tr>
-          <td>Quadrant III Accuracy:</td>
-          <td><span id='q3accuracy'></span></td>
-        </tr>
-        <tr>
-          <td>Quadrant IV Accuracy:</td>
-          <td><span id='q4accuracy'></span></td>
-        </tr>
-        <tr>
-          <td><b>Overall Positional Accuracy:</b></td>
-          <td><span id='accuracy'></span></td>
-        </tr>
-      </table>
+          <!-- <tr>
+            <td>Error Spread:</td>
+            <td><span id='error'></span></td>
+          </tr> -->
+          <tr>
+            <td>Path Coverage:</td>
+            <td><span id='coverage'></span></td>
+          </tr>
+          <tr>
+            <td>Quadrant I Accuracy:</td>
+            <td><span id='q1accuracy'></span></td>
+          </tr>
+          <tr>
+            <td>Quadrant II Accuracy:</td>
+            <td><span id='q2accuracy'></span></td>
+          </tr>
+          <tr>
+            <td>Quadrant III Accuracy:</td>
+            <td><span id='q3accuracy'></span></td>
+          </tr>
+          <tr>
+            <td>Quadrant IV Accuracy:</td>
+            <td><span id='q4accuracy'></span></td>
+          </tr>
+          <tr>
+            <td><b>Overall Positional Accuracy:</b></td>
+            <td><span id='accuracy'></span></td>
+          </tr>
+        </table>
+      </div>
 
 
-      <div class='download-section' id='download-analysis'>
+      <div class='download-section' id='download-analysis' style='display:none'>
         <button class='btn btn-download download-csv'>
           <i class="material-icons">cloud_download</i>
-          <span>Download analysis.csv</span>
+          <span>Download (Excel)</span>
         </button>
       </div>
 
@@ -185,30 +223,33 @@
     <hr>
     <!--  -->
 
-    <div class='download-section text-right' id='download-chart'>
-      <button class='btn btn-download download-png' id="download-chart">
-        <i class="material-icons">cloud_download</i>
-        <span>Downloand chart.png</span>
-      </button>
-
-      <br><br>
+    <div class='alert' role="alert">
+      <p>
+        <p>
+          <small><b>Note *:</b> Data is sampled using largest Triangle Three Bucket method described in the 
+          <a href="https://skemman.is/bitstream/1946/15343/3/SS_MSthesis.pdf" target="_blank">Downsampling Time Series for Visual Representation thesis by Sveinn Steinarsson</a>. Using Open Source software <a href="https://d3fc.io/" target="_blank">d3fc</a> implementation under <a href="https://opensource.org/licenses/MIT" target="_blank">The MIT License.</a>
+          </small>
+        </p>
+        <p>
+          <small><b>Note **:</b> Distances in the 2D spectrum are calculated by approximation using the <a href="https://www.sciencedirect.com/science/article/pii/S0012365X04001116">octagons approach </a>    
+          </small>
+        </p>
+      </p>
     </div>
 
-		<section class='chart-container' id="chart-container">
-			<i id='loading' class="loading material-icons icon-animate">3d_rotation</i>
-
-      <div id='chart'></div>
-		</section>
-
-    
-
-
+    <!--  -->
+    <hr>
+    <!--  -->
 
 	</main>
+
+
 
 	<footer>
 		<% include ../partials/footer %>
 	</footer>
+
+
 	
 </body>
 </html>

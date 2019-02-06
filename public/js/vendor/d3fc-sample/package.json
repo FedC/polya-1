@@ -1,0 +1,95 @@
+{
+  "_args": [
+    [
+      "d3fc-sample",
+      "/Users/joker/dev/polya-1"
+    ]
+  ],
+  "_from": "d3fc-sample@latest",
+  "_id": "d3fc-sample@3.0.5",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/d3fc-sample",
+  "_nodeVersion": "5.7.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/d3fc-sample_3.0.5_1523002320420_0.3261549165229407"
+  },
+  "_npmUser": {
+    "email": "ceberhardt@scottlogic.com",
+    "name": "colineberhardt"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "d3fc-sample",
+    "raw": "d3fc-sample",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/d3fc-sample/-/d3fc-sample-3.0.5.tgz",
+  "_shasum": "5b0a758f1a042e1a624b6a37e7f0ddd11ae7f86a",
+  "_shrinkwrap": null,
+  "_spec": "d3fc-sample",
+  "_where": "/Users/joker/dev/polya-1",
+  "bugs": {
+    "url": "https://github.com/d3fc/d3fc-sample/issues"
+  },
+  "dependencies": {
+    "d3-array": "^1.0.0",
+    "d3fc-rebind": "^4.0.1"
+  },
+  "description": "A data subsampler that chooses representative data points using a largest triangle or mode-median approach.",
+  "devDependencies": {
+    "browserify": "^13.0.1",
+    "d3": "^4.1.1",
+    "d3fc-scripts": "^1.6.1",
+    "topojson": "^2.0.0",
+    "watch-cli": "^0.2.1"
+  },
+  "directories": {},
+  "dist": {
+    "fileCount": 26,
+    "shasum": "5b0a758f1a042e1a624b6a37e7f0ddd11ae7f86a",
+    "tarball": "https://registry.npmjs.org/d3fc-sample/-/d3fc-sample-3.0.5.tgz",
+    "unpackedSize": 262569
+  },
+  "gitHead": "15ed05d1fb8a8dc4b2cd431f5c6e6ace96281e3f",
+  "homepage": "https://github.com/d3fc/d3fc-sample",
+  "jsnext:main": "index",
+  "keywords": [
+    "d3",
+    "d3fc",
+    "sample",
+    "sampler"
+  ],
+  "license": "MIT",
+  "main": "build/d3fc-sample.js",
+  "maintainers": [
+    {
+      "email": "ceberhardt@scottlogic.com",
+      "name": "colineberhardt"
+    }
+  ],
+  "name": "d3fc-sample",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3fc/d3fc-sample.git"
+  },
+  "scripts": {
+    "bundle": "d3fc-scripts bundle",
+    "deploy-site": "npm run site && bash ./site/deploy.sh",
+    "dev": "npm run site && watch -p '{site,src,test}/**/*.js' -c 'npm run site'",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "site": "npm run test && mkdirp site/lib && browserify site/demo.js -o site/lib/bundle.js",
+    "test": "d3fc-scripts test"
+  },
+  "version": "3.0.5"
+}

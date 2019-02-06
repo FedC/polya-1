@@ -1,0 +1,84 @@
+{
+  "_args": [
+    [
+      "d3fc-rebind@^4.0.1",
+      "/Users/joker/dev/polya-1/node_modules/d3fc-sample"
+    ]
+  ],
+  "_from": "d3fc-rebind@>=4.0.1 <5.0.0",
+  "_id": "d3fc-rebind@4.1.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/d3fc-rebind",
+  "_nodeVersion": "5.7.1",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/d3fc-rebind-4.1.1.tgz_1475076828665_0.8906937828287482"
+  },
+  "_npmUser": {
+    "email": "price.c@gmail.com",
+    "name": "chrisprice"
+  },
+  "_npmVersion": "3.10.8",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "d3fc-rebind",
+    "raw": "d3fc-rebind@^4.0.1",
+    "rawSpec": "^4.0.1",
+    "scope": null,
+    "spec": ">=4.0.1 <5.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/d3fc-sample"
+  ],
+  "_resolved": "https://registry.npmjs.org/d3fc-rebind/-/d3fc-rebind-4.1.1.tgz",
+  "_shasum": "70c8d6b63fee63dbb3cb577c68732ded535f9b32",
+  "_shrinkwrap": null,
+  "_spec": "d3fc-rebind@^4.0.1",
+  "_where": "/Users/joker/dev/polya-1/node_modules/d3fc-sample",
+  "bugs": {
+    "url": "https://github.com/d3fc/d3fc-rebind/issues"
+  },
+  "dependencies": {},
+  "description": "Utilities for copying methods from one d3 component to another in a configurable way",
+  "devDependencies": {
+    "d3fc-scripts": "^1.1.4"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "70c8d6b63fee63dbb3cb577c68732ded535f9b32",
+    "tarball": "https://registry.npmjs.org/d3fc-rebind/-/d3fc-rebind-4.1.1.tgz"
+  },
+  "gitHead": "0215d33a90e38bd05ab46d51cd209bf30a5e9304",
+  "homepage": "https://github.com/d3fc/d3fc-rebind",
+  "jsnext:main": "index",
+  "keywords": [
+    "d3",
+    "d3fc",
+    "rebind",
+    "rebindAll",
+    "all"
+  ],
+  "license": "MIT",
+  "main": "build/d3fc-rebind.js",
+  "maintainers": [
+    {
+      "email": "price.c@gmail.com",
+      "name": "chrisprice"
+    }
+  ],
+  "name": "d3fc-rebind",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3fc/d3fc-rebind.git"
+  },
+  "scripts": {
+    "bundle": "d3fc-scripts bundle",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "test": "d3fc-scripts test"
+  },
+  "version": "4.1.1"
+}

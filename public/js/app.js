@@ -26,6 +26,208 @@ var FIREBASE_CONFIG = {
   messagingSenderId: "1015410485437"
 };
 
+
+const SAMPLE_BUCKET_SIZE = 1.5;
+
+
+function report(e) {
+  // Fault tolerance 
+  alert(e || "An error occurred. Refresh and try again.");
+}
+
+if ( typeof window == 'undefined' || typeof fc == 'undefined' ) {
+  alert('This app will not work on this device/browser. Use Chrome or another modern browser.');
+}
+
+const sampler = fc.largestTriangleThreeBucket();
+
+sampler.x(d => d['Ankle Flex/Ext'])
+      .y(d => d['Knee Int/Ext R.']);
+
+// Configure the size of the buckets used to downsample the data.
+sampler.bucketSize( SAMPLE_BUCKET_SIZE );
+
+let distance = function(p1, p2) {
+  /*
+    Distance = √(x2−x1)^2+(y2−y1)^2
+  */
+  return Math.sqrt( Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2) );
+}
+
+
+let distanceApprox = function(p1,p2){
+  /* 
+    Approximation by using octagons approach: 
+    https://www.sciencedirect.com/science/article/pii/S0012365X04001116
+  */
+  var x = p2.x-p1.x;
+  var y = p2.y-p1.y;
+  return 1.426776695*Math.min(0.7071067812*(Math.abs(x)+Math.abs(y)), Math.max (Math.abs(x), Math.abs(y))); 
+}
+
+let determineQuadrant = function(p1, p2) {
+  let quadrant;
+
+  if (p1 > 0 && p2 > 0) quadrant = 'quadrant1';
+  if (p1 < 0 && p2 > 0) quadrant = 'quadrant2';
+  if (p1 < 0 && p2 < 0) quadrant = 'quadrant3';
+  if (p1 > 0 && p2 < 0) quadrant = 'quadrant4';
+
+  return quadrant;
+} 
+
+let analyze = function(data) {
+
+  try {
+    resetAnalysisState();
+  } catch(e) {
+    console.log(e);
+  }
+
+  console.log('Analyizing...', data);
+
+  let dataset1 = data.dataset1;
+  let dataset2 = data.dataset2;
+  let error_spread = 0;
+  let tolerance = data.tolerance || 1;
+
+
+  if (!dataset1 || !dataset2) return report('No valid data provided');
+  try {
+    if (dataset1.length == 0 || dataset2.length == 0) return report('No valid data provided');
+
+  } catch(e) { console.log(e); }
+
+
+  let coverage_areas = {
+    quadrant1: {
+      inside: false,
+      total_points: 0,
+      total_points_in: 0,
+      accuracy: null
+    },
+    quadrant2: {
+      inside: false, 
+      total_points: 0,
+      total_points_in: 0,
+      accuracy: null
+    },
+    quadrant3: {
+      inside: false, 
+      total_points: 0,
+      total_points_in: 0,
+      accuracy: null
+    },
+    quadrant4: {
+      inside: false,
+      total_points: 0,
+      total_points_in: 0,
+      accuracy: null
+    },
+  };
+
+  var sampledDataset1 = sampler(dataset1);
+
+  try {
+    var message1 = `First dataset sampled from ${dataset1.length} to ${sampledDataset1.length}`;
+    console.log(message1);
+    $('#message1').text(message1);
+  }
+  catch(e) { console.log(e) }
+
+
+
+  var sampledDataset2 = sampler(dataset2);
+
+  try {
+    var message2 = `Second dataset sampled from ${dataset2.length} to ${sampledDataset2.length}`;
+    console.log(message2);
+    $('#message2').text(message2);
+  }
+  catch(e) { console.log(e) }
+  
+  var intersection = [];
+
+  sampledDataset2.forEach(d2 => {
+    let ankle2   = d2['Ankle Flex/Ext'];
+    let knee2    = d2['Knee Int/Ext R.'];
+
+    let quadrant = determineQuadrant(ankle2, knee2);
+
+    coverage_areas[quadrant].total_points++;
+
+    coverage_areas[quadrant].inside = true;
+
+    d2.inside = false;
+
+    sampledDataset1.some(d1 => {
+      let ankle1 = d1['Ankle Flex/Ext'];
+      let knee1 = d1['Knee Int/Ext R.'];
+
+      // only if points are inside of quadrant we are analyzing
+      if (determineQuadrant(ankle1, knee1) == quadrant) {
+
+        let dist = distanceApprox( {x: ankle1, y: knee1}, {x: ankle2, y: knee2} );
+
+        if ( dist <= tolerance ) {
+          // if this data point was never before marked inside
+          if (!d2.inside) coverage_areas[quadrant].total_points_in++;
+          // now we finally say this data point is inside
+          d2.inside = true;
+
+          // include intersection line with points that are found inside
+          intersection.push(d2);
+
+          return d2.inside; // no need to keep searching
+
+        } else {
+          // record error spread while they are in the same quadrant
+          error_spread = Math.max(error_spread, dist);
+        }
+
+      }
+
+    });
+
+  });
+
+
+  let hits = sampledDataset2.filter(d => d.inside).length;
+
+  let accuracy = parseFloat( hits / sampledDataset2.length * 100).toFixed(3);
+
+  let coverage_areas_count = 0;
+
+  Object.keys(coverage_areas).forEach(k => {
+    if (coverage_areas[k].inside) coverage_areas_count++;
+    coverage_areas[k].accuracy = parseFloat(coverage_areas[k].total_points_in / coverage_areas[k].total_points * 100).toFixed(3);
+    if ( isNaN(coverage_areas[k].accuracy) ) coverage_areas[k].accuracy = 0;
+  });
+
+  let coverage = parseFloat(coverage_areas_count / 4 * 100).toFixed(3);
+
+  let response = {
+    coverage_areas: coverage_areas,
+    accuracy: accuracy,
+    coverage: coverage,
+    hits: hits,
+    totalSampledPoints: sampledDataset2.length,
+    intersection: intersection
+  };
+
+  return response;
+};
+
+
+
+function resetAnalysisState() {
+  $('#message1, #message2').text("");
+  $('#loading, #loading-analysis').hide();
+  $('#analysis').hide();
+  $('#download-analysis').hide();
+}
+
+
 /*
   
   Use jQuery to wait for document to load
@@ -38,14 +240,11 @@ $( document ).ready(function() {
   // Firebase file storage reference
   var storageRef = firebase.storage().ref();
 
-  // Set UI states
-  $('#loading, #loading-analysis').hide();
-  $('#analysis').hide();
-  $('#download-analysis').hide();
-
-  $("#file1-download-section").hide();
-  $("#file2-download-section").hide();
-
+  try {
+    resetAnalysisState();
+  } catch(e) {
+    console.log(e);
+  }
 
   // Custom file input behavior
   var inputs = document.querySelectorAll( '.inputfile' );
@@ -108,7 +307,7 @@ $( document ).ready(function() {
   });
 
 
-  $('.download-png').on('click', function () {
+  $('.js-download-png').on('click', function () {
     downloadPNG();
   });
 
@@ -250,8 +449,10 @@ $( document ).ready(function() {
 
     if (!file) return false;
 
-    $('#loading').show();
+    var id = event.target.dataset.id;
 
+    event.target.setAttribute('disabled', true);
+    $("#file" + id + "-download-section .loading-file").show();
     console.log('Uploading ', fileId, file);
 
     fileRef.put(file).then(function(snapshot) {
@@ -259,11 +460,13 @@ $( document ).ready(function() {
       console.log(`${fileId} uploaded.`);
 
       function done() {
-        $('#loading').hide();
-        console.log(`${fileId} contents read.`);
         var fileContents = this.response;
         var id = fileId == 'file1' ? 1 : 2;
         processData(fileContents, id);
+
+        event.target.removeAttribute('disabled');
+        $("#file" + id + "-download-section .loading-file").hide();
+        console.log(`${fileId} contents read.`);
       }
 
       var xmlhttp;
@@ -373,10 +576,10 @@ $( document ).ready(function() {
      if (i%3==0) DATA[ id ].push({ "Ankle Flex/Ext": data[i], "Knee Int/Ext R.": data[i+1], "Inversion/Eversion": data[i+2]});
     });
 
-    $("#file" + id + "-download-section").show();
+    $("#file" + id + "-download-section .download-csv").show();
 
     plot();
-    analyzeData();
+    // analyzeData();
   }
 
 
@@ -385,46 +588,86 @@ $( document ).ready(function() {
   // and display on screen
   function analyzeData() {
 
+    if (  $('#loading-analysis').is(':visible')  ) return;
+
+    if ( (!DATA[1] || !DATA[2]) || (DATA[2].length == 0 || DATA[1].length == 0) ) {
+      report('Please upload both files to run analysis.');
+    }
+
     if (DATA[2].length > 0 && DATA[1].length > 0) {
 
-      $('#loading-analysis').show();
-      $('#analysis').hide();
-      $('#download-analysis').hide();
+      try {
+          $('#loading-analysis').show();
+          $('#analysis').hide();
+          $('#download-analysis').hide();
 
-      setTimeout(function () {
-        $.ajax({
-          type: "POST",
-          url: '/api/analyze',
-          data: {
-            dataset1: DATA[1],
-            dataset2: DATA[2],
-            tolerance: TOLERANCE
-          },
-          success: function(response) {
-            console.log(response);
+          setTimeout(function () {
 
-            ANALYSIS = response;
+            ANALYSIS = analyze({
+              dataset1: DATA[1],
+              dataset2: DATA[2],
+              tolerance: TOLERANCE
+            });
 
-            plot(); // now with analysis data
+            if ( ANALYSIS ) {
 
-            $('#hits').html( response.hits + "/" + response.totalSampledPoints );
-            $('#q1accuracy').html( response.coverage_areas['quadrant1'].accuracy + "%" );
-            $('#q2accuracy').html( response.coverage_areas['quadrant2'].accuracy + "%" );
-            $('#q3accuracy').html( response.coverage_areas['quadrant3'].accuracy + "%" );
-            $('#q4accuracy').html( response.coverage_areas['quadrant4'].accuracy + "%" );
-            $('#accuracy').html( response.accuracy + "%" );
-            $('#coverage').html( response.coverage + '%' );
+              console.log(ANALYSIS);
 
-            $('#loading-analysis').hide();
-            $('#analysis').show();
-            $('#download-analysis').show();
-          }
-        });
-      }, 100);
+              plot(); // now with analysis data
+
+              $('#hits').html( ANALYSIS.hits + "/" + ANALYSIS.totalSampledPoints );
+              $('#q1accuracy').html( ANALYSIS.coverage_areas['quadrant1'].accuracy + "%" );
+              $('#q2accuracy').html( ANALYSIS.coverage_areas['quadrant2'].accuracy + "%" );
+              $('#q3accuracy').html( ANALYSIS.coverage_areas['quadrant3'].accuracy + "%" );
+              $('#q4accuracy').html( ANALYSIS.coverage_areas['quadrant4'].accuracy + "%" );
+              $('#accuracy').html( ANALYSIS.accuracy + "%" );
+              $('#coverage').html( ANALYSIS.coverage + '%' );
+
+              $('#loading-analysis').hide();
+              $('#analysis').show();
+              $('#download-analysis').show();
+            }
+
+            // $.ajax({
+            //   type: "POST",
+            //   url: '/api/analyze',
+            //   data: {
+            //     dataset1: DATA[1],
+            //     dataset2: DATA[2],
+            //     tolerance: TOLERANCE
+            //   },
+            //   success: function(response) {
+            //     console.log(response);
+
+            //     ANALYSIS = response;
+
+            //     plot(); // now with analysis data
+
+            //     $('#hits').html( response.hits + "/" + response.totalSampledPoints );
+            //     $('#q1accuracy').html( response.coverage_areas['quadrant1'].accuracy + "%" );
+            //     $('#q2accuracy').html( response.coverage_areas['quadrant2'].accuracy + "%" );
+            //     $('#q3accuracy').html( response.coverage_areas['quadrant3'].accuracy + "%" );
+            //     $('#q4accuracy').html( response.coverage_areas['quadrant4'].accuracy + "%" );
+            //     $('#accuracy').html( response.accuracy + "%" );
+            //     $('#coverage').html( response.coverage + '%' );
+
+            //     $('#loading-analysis').hide();
+            //     $('#analysis').show();
+            //     $('#download-analysis').show();
+            //   },
+            //   error: function(error) {
+            //     report(error);
+            //   }
+            // });
+
+          }, 100);
+
+      } catch (e) {
+        console.log(e);
+        report();
+      }
     }
   }
-
-
 
   // gridlines in x axis function
   function make_x_gridlines(x) {   
@@ -441,6 +684,7 @@ $( document ).ready(function() {
 
   function plot() {
     $('#loading').show();
+    $('#download-chart').hide();
     $('#chart').html('');
 
     var dimension = parseInt($('.chart-container').height() * .9);
@@ -544,6 +788,7 @@ $( document ).ready(function() {
     SVG = svg;
 
     $('#loading').hide();
+    $('#download-chart').show();
   }
 
   plot();

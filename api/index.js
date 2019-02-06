@@ -1,6 +1,5 @@
 const express = require('express');
 const router  = express.Router();
-const datalib = require('datalib');
 const sample  = require('d3fc-sample');
 
 const SAMPLE_BUCKET_SIZE = 1.5;
@@ -20,6 +19,12 @@ let distance = function(p1, p2) {
   return Math.sqrt( Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2) );
 }
 
+let distanceApprox = function(p1,p2){
+  // Approximation by using octagons approach
+  var x = p2.x-p1.x;
+  var y = p2.y-p1.y;
+  return 1.426776695*Math.min(0.7071067812*(Math.abs(x)+Math.abs(y)), Math.max (Math.abs(x), Math.abs(y))); 
+}
 
 let determineQuadrant = function(p1, p2) {
   let quadrant;
@@ -98,11 +103,11 @@ router.post('/analyze', function(req, res) {
 
 
   var sampledDataset1 = sampler(dataset1);
-  console.log(`Reduced data size from ${dataset1.length} to ${sampledDataset1.length}`);
+  console.log(`Reduced dataset1 size from ${dataset1.length} to ${sampledDataset1.length}`);
 
 
   var sampledDataset2 = sampler(dataset2);
-  console.log(`Reduced data size from ${dataset2.length} to ${sampledDataset2.length}`);
+  console.log(`Reduced dataset2 size from ${dataset2.length} to ${sampledDataset2.length}`);
   
   var intersection = [];
 
@@ -125,7 +130,7 @@ router.post('/analyze', function(req, res) {
       // only if points are inside of quadrant we are analyzing
       if (determineQuadrant(ankle1, knee1) == quadrant) {
 
-        let dist = distance( {x: ankle1, y: knee1}, {x: ankle2, y: knee2} );
+        let dist = distanceApprox( {x: ankle1, y: knee1}, {x: ankle2, y: knee2} );
 
         if ( dist <= tolerance ) {
           // if this data point was never before marked inside

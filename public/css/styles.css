@@ -1,3 +1,10 @@
+:root {
+  --primary-color: steelblue;
+  --secondary-color: #fce95c;
+  --terciary-color: #ff3b3b;
+}
+
+
 body { 
   color: #444963;
   padding-top: 1em;
@@ -17,27 +24,37 @@ main {
   padding: 0 1rem;
 }
 
+.section {
+  max-width: 640px;
+  margin: auto;
+  text-align: center;
+}
+
 .form {
   width: 100%;
   padding: 1em;
   border-radius: 3px;
-  border: 4px solid #E7E8ED;
+  border: 1px solid #E7E8ED;
   background-color: #FAFAFC;
   text-align: left;
 }
 
 .form.file-1 {
-  border-color: rgba(252, 234, 91, 1);
+  border-color: rgba(252, 234, 91, .6);
   background-color: rgba(252, 234, 91, .5);
 }
 
 .form.file-2 {
-  border-color: rgba(70, 130, 180, 1);
+  border-color: rgba(70, 130, 180, .6);
   background-color:  rgba(70, 130, 180, .5);
 }
 
-.form.text-center {
+.text-center {
   text-align: center;
+}
+
+.text-left {
+  text-align: left;
 }
 
 .form input {
@@ -77,10 +94,10 @@ main {
   vertical-align: middle;
 }
 
-.inputfile + label > i {
+.inputfile + label > .i {
   margin-right: 10px;
   padding: 10px 20px;
-  font-size: 1.25em;
+  /*font-size: 1.25em;*/
   font-weight: 700;
   cursor: pointer;
   border-radius: 3px;
@@ -92,17 +109,24 @@ main {
   color: white;
 }
 
-.inputfile + label > i:hover {
+.inputfile + label > .i:hover {
   background-color: #3071a9;
   border-color: #285e8e;
 }
 
-.inputfile + label.file-1-label  i{
+.inputfile + label.file-1-label  .i{
   
 }
 
-.inputfile + label.file-2-label i {
+.inputfile + label.file-2-label .i {
 
+}
+
+.inputfile + label .truncate {
+  display: inline-block;
+  width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .inputfile:focus + label {
@@ -119,12 +143,10 @@ main {
 .form .btn-primary {
   margin: 1em auto 0 auto;
   padding: 10px 20px;
-  font-size: 1.25em;
   font-weight: 700;
 }
 
 .btn-download {
-
   border: 2px solid #262626;
 }
 .btn-download:hover {
@@ -237,6 +259,7 @@ text.chart-item {
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
+  padding-top: 2em;
 }
 
 table {
@@ -283,21 +306,19 @@ td::after {
 }
 
 .loading {
+  display: inline-block;
   color: inherit;
-  position: absolute;
-  width: 4em;
-  height: 4em;
-  left: 50%;
-  top: 50%;
-  margin-top: -2em;
-  margin-left: -2em;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  margin-right:auto;
+  margin-left:auto;
+  line-height: 2;
+}
+
+.loading-text {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 2;
+}
+
+#loading-analysis {
+  display: block;
 }
