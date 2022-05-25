@@ -18,12 +18,13 @@ var DIMENSION;
 
 // Firebase config
 var FIREBASE_CONFIG = {
-  apiKey: "AIzaSyD8ZAQxNMQNaYAyhniMICa3DNvAuOpNZ_c",
-  authDomain: "polya-1.firebaseapp.com",
-  databaseURL: "https://polya-1.firebaseio.com",
-  projectId: "polya-1",
-  storageBucket: "polya-1.appspot.com",
-  messagingSenderId: "1015410485437"
+  apiKey: "AIzaSyAG-vbfGFidz614Idzrqjz843NJckmvAho",
+  authDomain: "polya-1-efe0c.firebaseapp.com",
+  projectId: "polya-1-efe0c",
+  storageBucket: "polya-1-efe0c.appspot.com",
+  messagingSenderId: "367437150205",
+  appId: "1:367437150205:web:94f3e28fa90228c3c68b94",
+  measurementId: "G-6EJGTNCZL4"
 };
 
 
