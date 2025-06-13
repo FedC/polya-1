@@ -27,6 +27,8 @@ app.get('/', function(req, res) {
 
 app.use('/api', require('./api'));
 
+app.set('view options', { compileDebug: true, debug: true });
+
 app.listen(PORT, () => {
   console.log(`Node Express server listening on http://localhost:${PORT}`);
 });
