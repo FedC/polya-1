@@ -9,12 +9,12 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.20.3",
     "csv-parse": "^4.4.6",
     "d3fc-sample": "^3.0.5",
     "datalib": "^1.8.0",
     "ejs": "^3.1.10",
-    "express": "^4.6.1",
+    "express": "^4.21.2",
     "express-ejs-layouts": "^1.1.0",
     "path": "^0.12.7"
   },
