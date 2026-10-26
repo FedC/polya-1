@@ -10,16 +10,16 @@
   },
   "dependencies": {
     "body-parser": "^1.20.9",
-    "csv-parse": "^4.4.6",
+    "csv-parse": "^4.16.3",
     "d3fc-sample": "^3.0.5",
     "datalib": "^1.8.0",
     "ejs": "^3.1.10",
-    "express": "^4.21.2",
+    "express": "^4.22.3",
     "express-ejs-layouts": "^1.1.0",
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.14"
   },
   "engines": {
     "node": "22.23.4"
